@@ -6,19 +6,22 @@ reddit = praw.Reddit(client_id = 'cOrWaHLB_Hdidw', client_secret = '21usAKUK_6f7
 
 subreddit = reddit.subreddit('depression')
 #
-hot_depression = subreddit.new(limit = 4)
-#
+hot_depression = subreddit.hot(limit = 3)
+
 for s in hot_depression:
- if not s.stickied:
-     print('Title: {}, ups: {}, downs: {}, Have we visited?: {}'.format(s.title, s.ups, s.downs, s.visited, s.id))
-
-     s.comments.replace_more(limit = 0)
-
-     for comment in s.comments.list()[:15]:
+    if not s.stickied:
+        print('Title: {}, ups: {}, downs: {}, Have we visited?: {}'.format(s.title,
+        s.ups,
+        s.downs,
+        s.visited))
+    comments = s.comments
+    for comment in comments:
         print(20*'-')
-        print('Parent ID: ', comment.parent())
-        print('Comment ID: ', comment.id())
-        print(comment.body[:200])
+        print(comment.body)
+        if len(comment.replies) > 0:
+            for reply in comment.replies:
+                print('REPLY:')
+                print("\t"+reply.body)
 
 hot_python = subreddit.hot(limit=3)
 for submission in hot_python:
