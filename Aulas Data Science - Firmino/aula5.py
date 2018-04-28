@@ -16,3 +16,8 @@ media = np.mean(notas)
 desvio_padrao_populacao_estimado = np.std(notas)
 desvio_padra_amostra = desvio_padrao_populacao_estimado / np.sqrt(tam_amostra)
 (nota_media - 4.3)/desvio_padra_amostra
+
+#------------------------------
+estrelas = [2, 5, 5, 5, 3, 4, 4, 4, 3, 4]
+
+amostra_media = np.mean(estrelas)
