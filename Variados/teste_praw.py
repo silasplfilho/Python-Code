@@ -7,11 +7,12 @@ reddit = praw.Reddit(client_id = 'cOrWaHLB_Hdidw', client_secret = '21usAKUK_6f7
 subreddit = reddit.subreddit('depression')
 #
 conversedict = {}
-hot_depression = subreddit.hot(limit = 3)
+hot_depression = subreddit.hot(limit = 5)
 
 for submission in hot_depression:
     if not submission.stickied:
-        print('Title: {}, ups: {}, downs: {}, Have we visited?: {}, subid{}'.format(submission.title,
+        print('Title: {},"\n" Body: {},"\n" ups: {}, downs: {}, Have we visited?: {}, subid{}'.format(submission.title,
+        submission.selftext,
         submission.ups,
         submission.downs,
         submission.visited,
@@ -30,6 +31,11 @@ for submission in hot_depression:
             # print('Comment ID:',comment.id)
             # print(comment.body[:200])
 
+for s in hot_depression:
+    if not s.stickied:
+        print(s.title)
+
+
 for post_id in conversedict:
     message = conversedict[post_id][0]
     replies = conversedict[post_id][1]
@@ -39,3 +45,19 @@ for post_id in conversedict:
         print('Replies:')
         for reply in replies:
             print(replies[reply])
+
+#------------------
+subreddit = reddit.subreddit('news')
+
+for comment in subreddit.stream.comments():
+    try:
+        print(30*'_')
+        print()
+        parent_id = str(comment.parent())
+        submission = reddit.comment(parent_id)
+        print('Parent:')
+        print(submission.body)
+        print('Reply')
+        print(comment.body)
+    except praw.exceptions.PRAWException as e:
+        pass
