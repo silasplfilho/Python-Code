@@ -44,8 +44,8 @@ ps = PorterStemmer()
 
 example_words = ["python", "pythoner", "pythoning", "pythoned", "pythonly"]
 
-# for w in example_words:
-#     print(ps.stem(w))
+ for w in example_words:
+     print(ps.stem(w))
 
 next_text = "It is very important to be pythonly while you are pythoning with python. \
     All pythoners have pythoned poorly at least once."
@@ -54,3 +54,5 @@ words = word_tokenize(next_text)
 
 for w in words:
     print(ps.stem(w))
+#----------------------------
+# Part 4
