@@ -22,7 +22,6 @@ depression_subms = subr_depression.new(limit = 50)
 mentalhealth_subms = subr_mental_health.new(limit = 50)
 gett_over_subms = subr_gett_over.new(limit = 50)
 suicide_subms = subr_suicide.new(limit = 50)
-
 #--------------
 # posso definir dicionarios que guardarao as informações
 #--------------
@@ -31,7 +30,6 @@ print(var)
 print(depression_subms[1])
 test = reddit.submission(id='8ixtde')
 print(test.author)
-
 
 
 for submission in depression_subms:
