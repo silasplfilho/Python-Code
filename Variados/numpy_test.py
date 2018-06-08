@@ -17,4 +17,10 @@ a
 
 b = array( [ (1.5, 2, 3), (4,5,6) ] )
 b
-c = array( [ (1.5, 2, 3), (3,4) ] )
+c = array( [ (1, 2), (3,4) ], dtype = complex )
+c
+zeros( (3,4) )
+ones( (2,3,4), dtype=int16 )
+empty( (2,3) )
+arange(10,30,5)
+arange(0,2,0.3)

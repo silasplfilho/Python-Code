@@ -39,4 +39,23 @@ class Perceptron(object):
         self:object
         """
 
-        self.w_ = np.zeros
+        self.w_ = np.zeros(1 + X.shape[1])
+        self.errors_ = []
+
+        for _ in range(self.n_iter):
+            errors = 0
+            for xi, target in zip(X,y):
+                update = self.eta * (target - self.predict(xi))
+                self.w_[1:] += update * xi
+                self.w_[0] += update
+                errors += int (update "= 0.0")
+            self.errors_.append(errors)
+        return(self)
+
+    def net_imput(self, X):
+        """Calculate net imput"""
+        return np.dot(X, self.w_[1:])+ self.w_[0]
+
+    def predict(self, X):
+        """Return class label after unit step"""
+        return np.where(self.net_imput(X) >= 0.0, 1, -1)
