@@ -3,8 +3,8 @@ import time
 #--------------
 # reddit possui as credenciais da minha conta no Reddit para usar o PRAW
 #--------------
-reddit = praw.Reddit(client_id = 'cOrWaHLB_Hdidw', client_secret = '21usAKUK_6f7CbpKDhe-cQuinF4',
-                    username = 'silaslfilho', password = 's140291f', user_agent = 'something')
+reddit = praw.Reddit(client_id = '', client_secret = '',
+                    username = 'silaslfilho', password = '', user_agent = 'something')
 #--------------
 # defino os subreddits que obterei os dados
 #--------------
