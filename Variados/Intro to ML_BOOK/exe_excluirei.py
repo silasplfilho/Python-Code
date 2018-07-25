@@ -1,9 +1,6 @@
-import sys
-import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
-import IPython
-import sklearn
 import mglearn
 
 from sklearn.datasets import load_iris
