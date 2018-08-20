@@ -5,7 +5,7 @@ import mglearn
 #---------
 from sklearn.model_selection import train_test_split # modulo que divide o dataset
 X, y = mglearn.datasets.make_forge() # importando o dataset
-
+type(X)
 # random_state serve para garantir q a saida do metodo seja sempre igual caso seja usado novamente com o mesmo parametro
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 #--
@@ -58,7 +58,7 @@ plt.show()
 
 #-- K-Nearest Neighbors Regression
 # example
-mglearn.plots.plot_knn_regression(n_neighbors=5)
+mglearn.plots.plot_knn_regression(n_neighbors=3)
 plt.show()
 #---
 from sklearn.neighbors import KNeighborsRegressor
@@ -77,7 +77,7 @@ print("Test set predictions:\n{}".format(reg.predict(X_test)))
 
 print("Test set R^2: {:.2f}".format(reg.score(X_test, y_test)))
 #-----
-fig, axes = plt.subplots(1, 3, figsize=(15, 4 ))
+fig, axes = plt.subplots(1, 3, figsize=(15, 3))
 # create 1,000 data points, evenly spaced between -3 and 3
 line = np.linspace(-3, 3, 1000).reshape(-1, 1 )
 for n_neighbors, ax in zip([1, 3, 9], axes ):
