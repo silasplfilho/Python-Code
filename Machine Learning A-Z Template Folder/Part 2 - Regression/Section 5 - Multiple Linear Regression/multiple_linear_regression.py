@@ -11,8 +11,15 @@ X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, 4].values
 
 # Encoding categorical data
+# Encoding the Independent Variable of the State
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder_X = LabelEncoder()
+X[:, 3] = labelencoder_X.fit_transform(X[:, 3])
+onehotencoder = OneHotEncoder(categorical_features = [3]) # Posso usar o metodo unique do pandas
+X = onehotencoder.fit_transform(X).toarray()
 
 # Avoiding the Dummy Variable Trap
+X = X[:, 1:] # armadilha da variavel idiota - se tenho 3 categorias, eu devo deixar 2
 
 # Splitting the dataset into the Training set and Test set
 
@@ -27,3 +34,6 @@ y_train = sc_y.fit_transform(y_train)"""
 # Fitting Multiple Linear Regression to the Training set
 
 # Predicting the Test set results
+
+
+print("{} \n {}".format(dataset.head(), X[1:5, :]))
