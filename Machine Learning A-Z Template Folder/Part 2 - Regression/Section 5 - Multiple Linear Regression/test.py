@@ -44,7 +44,7 @@ data.to_csv(path, sep=",")
 data = pd.read_csv(r"C:\\Users\\b247857261\\Desktop\\Scripts\\silas\\Python-Codes\\Machine Learning A-Z Template Folder\\Part 2 - Regression\\Section 5 - Multiple Linear Regression\\data.csv",
     index_col=0) # index_col = 0 retira o indice que vem na leitura do CSV
 dataset = data.iloc[0:3000, :]
-dataset = data
+dataset = data[data['subfaixa'] != 0]
 #----- Criando os vetores de variaveis dependentes e independentes
 X = pd.DataFrame(dataset.iloc[:, 6].values)
 y = dataset.iloc[:, 3].values
