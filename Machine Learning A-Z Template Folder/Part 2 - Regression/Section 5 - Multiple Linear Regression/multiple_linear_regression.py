@@ -71,12 +71,7 @@ regressor_OLS.summary()
 pd.DataFrame(X_train) # visualizing the dataset as a DataFrame
 #---------
 plt.scatter(X_train[:,3], y_train, color = 'red')
-y_axis = pd.DataFrame(X_train[:,3])
-y_axis.iloc[:,:].values
-regressor_OLS.predict(y_axis)
 
-np.asarray(X_train[:,3])
-pd.DataFrame(X_train[:,3])
-
+y_axis = regressor_OLS.predict(np.shape(X_train[:,3]))
 plt.plot(X_train[:,3], , color='blue')
 plt.show()
