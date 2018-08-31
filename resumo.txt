@@ -1,0 +1,39 @@
+Resumo dos artigos que estou lendo:
+
+MIDAS - Mental Illness Detection and Analysis via Social Media (31/08) - ASONAM 2016
+Elvis Saravia, Chun-Hao Chang, Renaud Jollet De Lorenzo, Yi-Shin Chen
+
+  1 - ponto interessante da seção de introducao é a ferramenta CESDR. Eu poderia
+  conferir sobre o que se trata exatamente. Parece que ela tem um teste de saude mental.
+  "In order to ensure that mental health tests are carried out much faster and efficiently,
+  less human intervention and more automation is desired."
+  2 - O trabalho tenta cobrir basicamente 2 lacunas: 1a - construir um sistema que
+  consiga prever desordens mentais efetivamente, 2a - prover uma plataforma
+  online que consiga rapidamente e efetivamente avaliar a saude mental de usuarios online.
+  3 - O trabalho utiliza um mecanismo de coleta de dados efetiva de dados de pacientes e
+  não pacientes.
+  4 - São extraidos dois conjuntos de atributos ( 1o - TF/IDF e 2o - Pattern of Life Features
+  (ver referencia [1])).
+  5 - Principais Contribuicoes: - Uma abordagem de um eficiente mecanismo de coleta de dados,
+  para prever acuramente 'Borderline Personality Disorder' e 'Bipolar Disorder'. - Um sistema
+  construido sobre modelos de doencas mentais pretreinadas. Oferencendo uma analise em tempo real
+  que mira a investigacao das catacteristicas dos usuarios relacionadas a doencas mentais.
+  6 - O sistema MIDAS possui algumas etapas que organizam o trabalho.
+    1 - Coleção de dados: Eel divide a coleção dos dados entre pacientes e não pacientes.
+    Os dados dos pacientes foram coletados manualmente dos "portais de comunidade". Conferir
+    a referencia [3] sobre tais comunidades. Da lista dos seguidores de tais portais, foram
+    selecionados os relatos dos usuarios que explicitamente relatam uma doenca mental. Eles
+    especificamente procuram por palavras chave relacionadas a alguma doenca.
+    Os nao-pacientes são aqueles que não se autoidentificam com algum problema mental. Eles
+    simplesmente selecionaram id's de usuarios do twitter randomicamente.
+    2 - Preprocessamento: Ela consiste em remover os autores em que o
+    conteudo gerado dos posts é maior que 50% composta por links. Também foram excluidos usuarios
+    que possuem menos de 100 posts no total(que sao considerados usuarios nao ativos).
+      Comentario: Ele parece ter uma definicao de usuario. Ele esta considerando usuarios que
+      gerem uma quantidade minima de conteudo. Nem todos podem interagir nas redes sociais  ***
+    3 - Extracao de Atributos:
+
+Emotional and Linguistic Cues of Depression from Social Media Nikhita (31/08) - ACM DH 2017
+Nikhita Vedula, Srinivasan Parthasarathy
+
+  1 - 
