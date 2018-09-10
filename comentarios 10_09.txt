@@ -1,0 +1,14 @@
+referencia interessantes:
+- Uso de midias sociais como fonte de dados - 4, 6-9, 13
+- fenomeno dos sinais de depressao no facebook - 17, 24
+
+conferencia interessante ICWSM
+
+------
+a tarefa consiste em saber como:
+ - inserir varios elementos de uma forma automatizada, sem precisar preencher um a um
+ - como conferir se os ementos de uma ocnsulta retornarao da forma apropriada
+
+- Ja descobri no github aonde estao definidas as consultas ao BD.
+
+- Sera que existe uma forma apropriada de inserir novas consultas sem alterar o acesso via API?
