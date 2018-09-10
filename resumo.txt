@@ -2,6 +2,7 @@ Resumo dos artigos que estou lendo:
 
 MIDAS - Mental Illness Detection and Analysis via Social Media (31/08) - ASONAM 2016
 Elvis Saravia, Chun-Hao Chang, Renaud Jollet De Lorenzo, Yi-Shin Chen
+interesting keywords:
 
   1 - ponto interessante da seção de introducao é a ferramenta CESDR. Eu poderia
   conferir sobre o que se trata exatamente. Parece que ela tem um teste de saude mental.
@@ -35,5 +36,7 @@ Elvis Saravia, Chun-Hao Chang, Renaud Jollet De Lorenzo, Yi-Shin Chen
 
 Emotional and Linguistic Cues of Depression from Social Media Nikhita (31/08) - ACM DH 2017
 Nikhita Vedula, Srinivasan Parthasarathy
-
-  1 -
+interesting keywords:
+Objective:
+  1 - conduct an observational study to under- stand the interactions between clinically depressed users and their ego-network when contrasted with a differential control group of normal users and their ego-network.
+  2 - examine if one can identify relevant linguistic and emotional signals from social normal users and their ego-network.
