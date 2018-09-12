@@ -40,3 +40,23 @@ interesting keywords:
 Objective:
   1 - conduct an observational study to under- stand the interactions between clinically depressed users and their ego-network when contrasted with a differential control group of normal users and their ego-network.
   2 - examine if one can identify relevant linguistic and emotional signals from social normal users and their ego-network.
+
+Predicting Depression via Social Media - 7th International Conference on Weblogs and Social Media (2013) ICWSM
+De Choudhury
+  -Keywords:
+    -Major Depression Disorder
+    -
+  - Pontos interessantes
+    - Usa crowdsourcing para obter dados de usuarios do twitter que sao diagnosticados clinicamente com depressao, baseado em instrumentos de psicometria
+    - Usa metricas padronizadas da psicometria
+    - Aplica o teste do CES-D em usuarios do twitter-http://www.bcbsm.com/pdf/Depression_CES-D.pdf
+    - Ela se baseia como ponto de atuacao e brecha dos trabalhos relacionados, onde as pesquisas realizadas foram feitas por meio de questionarios e conjunto de pessoas limitado. Onde as pessoas analizadas são parecidas.
+    - Para evitar respostas ruins ao questionario, retiraram pessoas q demoraram menos de 2 min para responder.
+    - Usaram um teste auxiliar para melhor rastreio BDI (Beck Depression Inventory)
+    - Usa LIWC para fazer uma analise de sentimentos sobre as palavras do dataset. O problema é que é uma ferramenta paga.
+
+
+Perguntas que surgem durante a leitura:
+ - Parece que alguns trabalhos usam as midias sociais como fonte de dados e recursos por causa da variedade e riqueza de informações. Porém, seria essa oferta de informacoes suficiente para monitorar, ou entao abstrair conclusoes sobre doencas psicologicas? Nao seria importante
+ - Será que existe uma opcao de biblioteca em python para o LIWC? Fugindo de gastar dinheiro.
+ - Qual a diferenca de sintomas e emocoes? Existe uma relacao entre os dois?
