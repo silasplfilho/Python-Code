@@ -55,7 +55,11 @@ De Choudhury
     - Usaram um teste auxiliar para melhor rastreio BDI (Beck Depression Inventory)
     - Usa LIWC para fazer uma analise de sentimentos sobre as palavras do dataset. O problema é que é uma ferramenta paga.
 
+Classification of the most Significant Psychological Symptoms in Mental Patients with Depression using Bayesian Network (2015) EANN
+  -Keywords:
+    - depression, mental illness
 
+Galiatsatos et al
 Perguntas que surgem durante a leitura:
  - Parece que alguns trabalhos usam as midias sociais como fonte de dados e recursos por causa da variedade e riqueza de informações. Porém, seria essa oferta de informacoes suficiente para monitorar, ou entao abstrair conclusoes sobre doencas psicologicas? Nao seria importante
  - Será que existe uma opcao de biblioteca em python para o LIWC? Fugindo de gastar dinheiro.
