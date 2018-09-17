@@ -59,6 +59,12 @@ Classification of the most Significant Psychological Symptoms in Mental Patients
   -Keywords:
     - depression, mental illness
 
+  -Pontos interessantes:
+    - Logo na introducao ele coloca os sintomas das pessoas que possuem depressao.
+    - Ele lida com pessoas que ja sao diagnosticadas clinicamente c/ depressao
+    - O artigo lida tambem com os sintomas listados no DSM-V. Lista as mudancas de humor
+    - O objetivo do artigo é identificar e categorizar em modelos flexiveis os sintomas psicologicas mais significantes que sao ligados em paientes c depressao
+
 Galiatsatos et al
 Perguntas que surgem durante a leitura:
  - Parece que alguns trabalhos usam as midias sociais como fonte de dados e recursos por causa da variedade e riqueza de informações. Porém, seria essa oferta de informacoes suficiente para monitorar, ou entao abstrair conclusoes sobre doencas psicologicas? Nao seria importante
