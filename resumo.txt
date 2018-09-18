@@ -66,6 +66,10 @@ Classification of the most Significant Psychological Symptoms in Mental Patients
     - O objetivo do artigo é identificar e categorizar em modelos flexiveis os sintomas psicologicas mais significantes que sao ligados em paientes c depressao
 
 Galiatsatos et al
+
+  -Pontos interessantes:
+    - Parace que esse trabalho é o que melhor se aproxima da abordagem que eu estava pensando. Ele lista os sintomas relacionados à depressao. Ele também consegue pegar dados de pessoas diagnosticadas clinicamente com depressao.
+
 Perguntas que surgem durante a leitura:
  - Parece que alguns trabalhos usam as midias sociais como fonte de dados e recursos por causa da variedade e riqueza de informações. Porém, seria essa oferta de informacoes suficiente para monitorar, ou entao abstrair conclusoes sobre doencas psicologicas? Nao seria importante
  - Será que existe uma opcao de biblioteca em python para o LIWC? Fugindo de gastar dinheiro.
