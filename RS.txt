@@ -38,3 +38,5 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
   - (Social (Media OR Network) OR (Complex Network)) AND
 		((Psychological OR Mental) AND (Disease OR Illness)) AND
 		(Symptom*)
+
+ - (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) AND (Symptom)
