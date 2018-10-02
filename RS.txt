@@ -1,0 +1,40 @@
+PAnotacoes do Livro sobre revisao Sistematica
+
+	1 - Cap 2. pag 19. Ultimo ponto: na verdade o levantamento da literatura q fiz pode servir como parametro inicial para a realizacao da RS
+	2 - Cap 2 - Questao 2: Informacoes gerais. Quais sao os dados gerais da minha revisao sistematica?
+
+	- Informacoes Gerais
+		Titulo: RS sobre Midias e Redes sociais como fonte de identificacao de sintomas de transtornos psicologicos
+		Pesquisadores: Silas
+		Descricao: "deve conter uma explicacao e justificativa da RS" - A influencia de midias sociais atualmente se dá ao ponto de que pessoas podem usar tais plataformas para se expressarem. Um problema de saude considerado importantissimo a ser analisado é o suicidio. Entender o que leva uma pessoa a cometer tal ato já é foco de estudos no campo médico e psicologico. Por tras dos atos de suicidio podem estar presentes pessoas que passam por problemas psicologicos. Levando isso em consideracao, usar midias sociais como fonte de estudo de comportamento humano para a identificacao de pessoas com disturbios, ou entao com sintomas de disturbios psicologicos.
+		Tal revisao permitiria entender quais abordagens estao sendo tomadas, o que ja foi feito pelo corpo cientifico e tambem o que pode servir como contribuicao cientifica para resolucao de tal problema.
+		Objetivo: Se é possivel identificar sintomas de doencas psicologicas em pessoas que usem midias sociais.
+
+  - PICO:
+ 		- populacao: Pessoas com sintomas de doencas psicologicas / pessoas que se voluntariem para analises dos dados
+		- Intervencao: Uso de metricas de redes sociais, tecnicas de medidas de psicometria,
+		- Comparacao: ainda nada / talvez com dados clinicos de pacientes
+		- Resultados: identificacao de correlacao entre variaveis identificadas da extracao de dados de midias sociais.
+
+	- Questões de pesquisa:
+		- Seria possivel identificar sintomas de doencas psicologicas por meio das midias sociais?
+		- Haveria uma forma de diagnosticar uma doenca usando apenas informacoes das MS?
+		- Seriam as MS's uteis para profissionais, psicologos etc?
+		- Que tipos de tecnicas de analise poderiam ser utilizadas para tal?
+		- Seriam as MS uteis para identificar o quao uma doenca ou sintoma pode se propagar?
+		- Que tipos de pesquisa tem sido feitas nas areas correlatas a hipotese?
+
+
+PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e motores de busca)
+ - IEEE
+ - ACM DL
+ - Science Direct
+ - Springer
+ - Scopus
+ - Engineering Village
+ - Web of Science
+
+ Possivel String de busca:
+  - (Social (Media OR Network) OR (Complex Network)) AND
+		((Psychological OR Mental) AND (Disease OR Illness)) AND
+		(Symptom*)
