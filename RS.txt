@@ -68,3 +68,5 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 	Capitulo 4: (selecao e avaliacao de estudos)
 	 - Tenho que definir os criterios de selecao inicial e final.
 	 - Parece que saem da selecao inicial os estudos
+
+https://rayyan.qcri.org/welcome
