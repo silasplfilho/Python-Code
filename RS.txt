@@ -26,7 +26,7 @@ PAnotacoes do Livro sobre revisao Sistematica
 
 	Capitulo 3: (Identificação de estudos)
 	 - Devo definir bases a serem procuradas
-	 - Definir metodo de busca: Em suma devo escolher a automatica, mas para os trabalhos mais relacionados eu acho q posso usar snowballing
+	 - Definir metodo de busca: Em suma devo escolher a automatica, mas para os trabalhos mais relacionados eu acho q posso usar snowballing reverso
 	 - Estrategia de busca
 
 
@@ -49,3 +49,7 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 =======
  - (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) AND (Symptom)
 >>>>>>> 6b79b4590f6d3cc739701f18308a552ce7d702ea
+
+	Capitulo 4: (selecao e avaliacao de estudos)
+	 - Tenho que definir os criterios de selecao inicial e final.
+	 - Parece que saem da selecao inicial os estudos
