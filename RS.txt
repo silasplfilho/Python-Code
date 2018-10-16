@@ -17,12 +17,17 @@ PAnotacoes do Livro sobre revisao Sistematica
 		- Resultados: identificacao de correlacao entre variaveis identificadas da extracao de dados de midias sociais.
 
 	- Questões de pesquisa:
-		- Seria possivel identificar sintomas de doencas psicologicas por meio das midias sociais?
+		- Seria possivel identificar sintomas de doencas psicologicas por meio das midias sociais? - POSSIVEL HIPOTESE
 		- Haveria uma forma de diagnosticar uma doenca usando apenas informacoes das MS?
 		- Seriam as MS's uteis para profissionais, psicologos etc?
 		- Que tipos de tecnicas de analise poderiam ser utilizadas para tal?
 		- Seriam as MS uteis para identificar o quao uma doenca ou sintoma pode se propagar?
 		- Que tipos de pesquisa tem sido feitas nas areas correlatas a hipotese?
+
+	Capitulo 3: (Identificação de estudos)
+	 - Devo definir bases a serem procuradas
+	 - Definir metodo de busca: Em suma devo escolher a automatica, mas para os trabalhos mais relacionados eu acho q posso usar snowballing
+	 - Estrategia de busca
 
 
 PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e motores de busca)
@@ -38,3 +43,5 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
   - (Social (Media OR Network) OR (Complex Network)) AND
 		((Psychological OR Mental) AND (Disease OR Illness)) AND
 		(Symptom*)
+
+	- (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))
