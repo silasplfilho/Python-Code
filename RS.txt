@@ -60,21 +60,15 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 		(Symptom*)
 
 <<<<<<< HEAD
-	- (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))
-=======
-<<<<<<< HEAD
 	- (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) - preferivel
->>>>>>> 222130032039815d088d1c9d7e039e356cc22a2f
 =======
  - (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) AND (Symptom)
+
+ - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness")
 
 	Capitulo 4: (selecao e avaliacao de estudos)
 	 - Tenho que definir os criterios de selecao inicial e final.
 	 - Parece que saem da selecao inicial os estudos
 
-<<<<<<< HEAD
 	Capitulo 6: (mapeamento sistematico)
 	 - acho q devo usar o MS ao inves da RS devido a quantidade de pessoas que farao a revisao da literatura.
-=======
-https://rayyan.qcri.org/welcome
->>>>>>> 222130032039815d088d1c9d7e039e356cc22a2f
