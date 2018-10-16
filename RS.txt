@@ -1,4 +1,4 @@
-PAnotacoes do Livro sobre revisao Sistematica
+Anotacoes do Livro sobre revisao Sistematica
 
 	1 - Cap 2. pag 19. Ultimo ponto: na verdade o levantamento da literatura q fiz pode servir como parametro inicial para a realizacao da RS
 	2 - Cap 2 - Questao 2: Informacoes gerais. Quais sao os dados gerais da minha revisao sistematica?
@@ -12,17 +12,32 @@ PAnotacoes do Livro sobre revisao Sistematica
 
   - PICO:
  		- populacao: Pessoas com sintomas de doencas psicologicas / pessoas que se voluntariem para analises dos dados
-		- Intervencao: Uso de metricas de redes sociais, tecnicas de medidas de psicometria,
+		- Intervencao: Uso de metricas de redes sociais, tecnicas de medidas de psicometria
 		- Comparacao: ainda nada / talvez com dados clinicos de pacientes
 		- Resultados: identificacao de correlacao entre variaveis identificadas da extracao de dados de midias sociais.
+
+		- PICO 2:(reuniao orientacao)
+		 - populacao: grupo q sera avaliado e estudado durante a intervencao - trabalhos sobre sintomas psicologicos/formas de interacao por pessoas c sintomas de doencas psicologicas
+		 - intervencao: recorte de interacoes de pessoas c sintomas de depressao em midias sociais
+		 - comparacao: nada
+		 - resultados: grupo de trabalhos sobre metricas e metodos de analise
 
 	- Questões de pesquisa:
 		- Seria possivel identificar sintomas de doencas psicologicas por meio das midias sociais? - POSSIVEL HIPOTESE
 		- Haveria uma forma de diagnosticar uma doenca usando apenas informacoes das MS?
 		- Seriam as MS's uteis para profissionais, psicologos etc?
 		- Que tipos de tecnicas de analise poderiam ser utilizadas para tal?
-		- Seriam as MS uteis para identificar o quao uma doenca ou sintoma pode se propagar?
-		- Que tipos de pesquisa tem sido feitas nas areas correlatas a hipotese?
+		- Seriam as MS uteis para identificar o quao uma doenca ou sintoma pode se propagar? - SAI 16/10
+		- Que tipos de pesquisa tem sido feitas nas areas correlatas a hipotese? - SAI 16/10
+
+		- Quais sao os problemas que os trabalhos encotrados tentam resolver?
+		- Quais sao os trabalhos existentes utilizando as abordagens: -Focada em foruns especializados, -Focada no paciente diagnosticado, -Focado em padroes psicometricos nos textos publicados
+		- Quais os algoritmos de reconhecimento de padroes utilizados nos trabalhos?
+		- Quais as principais metricas para analise?
+		- Como se deu a evolucao temporal dos estudos da area?
+		- Quais os principais grupos de publicacao/pesquisa existentes?(fazer rede de coautoria)
+		- Quais sao as limitacoes e desafios da area?
+		- Quando e onde os trabalhos tem sido publicados?
 
 	Capitulo 3: (Identificação de estudos)
 	 - Devo definir bases a serem procuradas
@@ -45,7 +60,7 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 		(Symptom*)
 
 <<<<<<< HEAD
-	- (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))
+	- (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) - preferivel
 =======
  - (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) AND (Symptom)
 >>>>>>> 6b79b4590f6d3cc739701f18308a552ce7d702ea
