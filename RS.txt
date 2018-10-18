@@ -56,7 +56,7 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 
  Possivel String de busca:
   - (Social (Media OR Network) OR (Complex Network)) AND
-		((Psychological OR Mental) AND (Disease OR Illness)) AND
+		((Psychological OR Mental) AND (Disease OR Illness)) ANDP
 		(Symptom*)
 
 <<<<<<< HEAD
