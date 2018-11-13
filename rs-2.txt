@@ -1,0 +1,6 @@
+(Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness)
+
+
+ScienceDirect - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness")
+
+Springer - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness")
