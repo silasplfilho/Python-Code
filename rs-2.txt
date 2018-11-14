@@ -1,7 +1,7 @@
 (Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness)
 (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))
 
-ScienceDirect - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness") - 221 resultados
+ScienceDirect - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness") - 221 resultados - filtrando 139 resultados
 
 Springer -
   --> ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness") - 173 results
@@ -25,5 +25,8 @@ Scopus
 Web of Science
   --> TS=(("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness")) - 2 results
   --> TS=(("Social Media" OR "Social Network" OR "Complex Network") AND (("Psychological" OR "Mental") AND ("Disease" OR "Illness"))) - 473 results
-  --> TS=((Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))) - 1,664 results
+  --> TS=((Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))) - 1,664 results - PARECE A MELHOR
   --> TS=((Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness)) - 1037 results
+
+
+666 resultados
