@@ -30,7 +30,7 @@ Anotacoes do Livro sobre revisao Sistematica
 		- Seriam as MS uteis para identificar o quao uma doenca ou sintoma pode se propagar? - SAI 16/10
 		- Que tipos de pesquisa tem sido feitas nas areas correlatas a hipotese? - SAI 16/10
 
-		- Quais sao os problemas que os trabalhos encotrados tentam resolver?
+		- Quais sao os problemas que os trabalhos encontrados tentam resolver?
 		- Quais sao os trabalhos existentes utilizando as abordagens: -Focada em foruns especializados, -Focada no paciente diagnosticado, -Focado em padroes psicometricos nos textos publicados
 		- Quais os algoritmos de reconhecimento de padroes utilizados nos trabalhos?
 		- Quais as principais metricas para analise?
@@ -72,3 +72,11 @@ PS: Lugares aonde devo fazer as buscas automatizadas (bases bibliograficas, e mo
 
 	Capitulo 6: (mapeamento sistematico)
 	 - acho q devo usar o MS ao inves da RS devido a quantidade de pessoas que farao a revisao da literatura.
+
+
+
+_----------------------------------
+
+Dia 30/11 - Lendo abstracts para retirar trabalhos q nao estao no contexto
+
+ - EI Compendex
