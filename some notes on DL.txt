@@ -1,0 +1,7 @@
+Em deep learning, o elemento mais básico é o neuronio. Com este elemento, sao criados os diferentes modelos de redes onde esses neuronios se conectarao. O modelo mais simples é o Multilayer Perceptron (Perceptron Multicamadas). Um perceptron possui camadas, tal como uma cebola. Em cada camada, existem neuronios. Os neuronios de cada camada se conectarao com todos os neuronios da camada seguinte.
+
+A acao esperada é que os neuronios da primeira camada enviem sinais para os da camada seguinte. No entanto, isso somente ocorrera quando se uma funçao for ativada. Essa funçao sempre será nao linear. 'Nao linear' significa que o valor da saida de uma funcao nao depende do valor da entrada.
+
+O obejtivo principal geral é tentar aproximar o máximo possivel o valor da saida dessa funcao para o valor correto. Dado que eu tenha ja esse valor esperado. (E se eu nao tiver um valor esperado?) 
+Para calcular essa aproximacao, entra em campo as funcoes de perda.
+O que se chama em machine learning, deep learning etc de etapa de treinamento, nada mais é que aplicar essas funcoes de errro, de modo que se chegue no valor mais proximo possivel. Ou seja, uma funcao de erro que tenha o valor muito baixo.
