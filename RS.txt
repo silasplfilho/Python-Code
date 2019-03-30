@@ -22,8 +22,8 @@ Anotacoes do Livro sobre revisao Sistematica
 		 - comparacao: nada
 		 - resultados: grupo de trabalhos sobre metricas e metodos de analise
 
-	- Questões de pesquisa:
-		- Seria possivel identificar sintomas de doencas psicologicas por meio das midias sociais? - POSSIVEL HIPOTESE
+	- Questões de pesquisProtocoloa:
+		- Seria possivel identificar sintomas de transtornos psicológicos por meio das midias sociais? - POSSIVEL HIPOTESE
 		- Haveria uma forma de diagnosticar uma doenca usando apenas informacoes das MS?
 		- Seriam as MS's uteis para profissionais, psicologos etc?
 		- Que tipos de tecnicas de analise poderiam ser utilizadas para tal?

@@ -12,7 +12,7 @@ class TestSum(unittest.TestCase):
         data = [1, 2, 3]
         result = sum(data)
         self.assertEqual(result, 6)
-    
+
     def test_list_fraction(self):
         """
         Test that if can sum a list of fractions

@@ -1,5 +1,9 @@
 (Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness)
 (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))
+("Social Media" OR "Social Network" OR "Complex Network") AND ( (("Psychological" OR "Mental") AND ("Disease" OR "Illness")) OR "Depression" ) - 15/02
+# -----
+("Social Media" OR "Social Network" OR "Complex Network") AND ((Psychological OR Mental) AND (Disease OR Illness)) AND Depression 
+# -----
 
 ScienceDirect - ("Social Media" OR "Social Network" OR "Complex Network") AND ("Psychological Disease" OR "Mental Disease" OR "Mental Disease" OR "Psychological Illness") - 221 resultados - filtrando 139 resultados
 
@@ -12,10 +16,12 @@ Springer -
 IEEE - duas strings de busca
   --> (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) - retorna 45 artigos - USEI ESSE
   --> (Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness) - retorna 35 artigos
+  --> ("Social Media" OR "Social Network" OR "Complex Network") AND ( (("Psychological" OR "Mental") AND ("Disease" OR "Illness")) OR "Depression" ) - (15/02)
 
 ACM DL - duas strings de busca
   --> (Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness)) - retorna 100 artigos
   --> ("Social Media" OR "Social Network" OR "Complex Network") AND (("Psychological" OR "Mental") AND ("Disease" OR "Illness")) - retorna 29 artigos - PARECE A MELHOR
+  --> ("Social Media" OR "Social Network" OR "Complex Network") AND ( (("Psychological" OR "Mental") AND ("Disease" OR "Illness")) OR "Depression") - 66 resultados (15/02)
 
 Engineering Village
   --> ("Social Media" OR "Social Network" OR "Complex Network") AND (("Psychological" OR "Mental") AND ("Disease" OR "Illness")) - 81 resultados
@@ -32,6 +38,8 @@ Web of Science
   --> TS=(("Social Media" OR "Social Network" OR "Complex Network") AND (("Psychological" OR "Mental") AND ("Disease" OR "Illness"))) - 473 results - String 2
   --> TS=((Social Media OR Social Network OR Complex Network) AND ((Psychological OR Mental) AND (Disease OR Illness))) - 1,664 results - PARECE A MELHOR - String 3
   --> TS=((Social Media OR Social Network OR Complex Network) AND (Psychological Disease OR Mental Disease OR Mental Disease OR Psychological Illness)) - 1037 results - String 4
+  --> (TS=((Social Media OR Social Network OR Complex Network) AND (((Psychological OR Mental) AND (Disease OR Illness)) AND Depression))) AND LANGUAGE: (English)
+Refined by: DOCUMENT TYPES: ( ARTICLE ) - 15/02 - 261 results
 
 
 666 resultados
