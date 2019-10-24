@@ -3,10 +3,7 @@ import os
 import pandas as pd
 import datetime as dt
 import json
-
-envVariable_client_id = os.environ.get('PRAW_client_id')
-envVariable_client_secret = os.environ.get('PRAW_client_secret')
-envVariable_password = os.environ.get('PRAW_password')
+import numpy as np
 
 # --------------
 # reddit possui as credenciais da minha conta no Reddit para usar o PRAW
@@ -18,9 +15,9 @@ reddit = praw.Reddit(client_id=envVariable_client_id, client_secret=envVariable_
 # defino os subreddits que obterei os dados
 # --------------
 subr_depression = reddit.subreddit('depression')
-subr_mental_health = reddit.subreddit('mentalhealth')
-subr_gett_over = reddit.subreddit('getting_over_it')
-subr_suicide = reddit.subreddit('SuicideWatch')
+# subr_mental_health = reddit.subreddit('mentalhealth')
+# subr_gett_over = reddit.subreddit('getting_over_it')
+# subr_suicide = reddit.subreddit('SuicideWatch')
 
 # --------------
 # defino uma variavel que recebe as postagens no reddit
@@ -28,10 +25,10 @@ subr_suicide = reddit.subreddit('SuicideWatch')
 # (new, hot, rising, gilded, controversial, top)
 # optarei pelas mais recentes
 # --------------
-depression_subms = subr_depression.new(limit=5)
-mentalhealth_subms = subr_mental_health.new(limit=50)
-gett_over_subms = subr_gett_over.new(limit=50)
-suicide_subms = subr_suicide.new(limit=50)
+depression_subms = subr_depression.new(limit=1200, created>last_timestamp)
+# mentalhealth_subms = subr_mental_health.new(limit=50)
+# gett_over_subms = subr_gett_over.new(limit=50)
+# suicide_subms = subr_suicide.new(limit=50)
 # --------------
 # posso definir dicionarios que guardarao as informações
 # --------------
@@ -43,7 +40,8 @@ topics_dict = {"title": [],
                "url": [],
                "comms_num": [],
                "created": [],
-               "body": []}
+               "body": [],
+               "author": []}
 
 for submission in depression_subms:
     if not submission.stickied:
@@ -53,8 +51,23 @@ for submission in depression_subms:
         topics_dict["score"].append(submission.score)
         topics_dict["created"].append(submission.created)
         topics_dict["comms_num"].append(submission.num_comments)
+        topics_dict["author"].append(submission.author)
         topics_dict["url"].append(submission.url)
 
 dataset = pd.DataFrame(topics_dict)
+dataset["creation"] = dataset["created"].apply(dt.datetime.fromtimestamp)
+# ----
+dataset["creation"].tail()
+dataset["created"].tail()
+last_timestamp = dataset["created"].iloc[-1]
 
-dataset["created"] = dataset["created"].apply(dt.datetime.fromtimestamp)
+depression_subms = subr_depression.new(limit=1200, created>last_timestamp)
+#
+dataset["score"] = dataset["score"].astype(np.int32)
+dataset["comms_num"] = dataset["comms_num"].astype(np.int32)
+dataset.dtypes
+
+len(dataset["id"].drop_duplicates())
+#
+dataset.to_csv(r"sample_dataset2.csv", sep=';')
+dataset.to_json(r"sample_dataset.json")

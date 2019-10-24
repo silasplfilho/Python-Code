@@ -1,0 +1,14 @@
+name: env4PythonCodes
+dependencies:
+  - numpy
+  - pandas
+  - keras
+  - matplotlib
+  - flake8
+  - nltk
+  - pep8
+  - pylint
+  - scipy
+  - urllib3
+  - requests
+  - bs4
