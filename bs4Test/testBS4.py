@@ -1,21 +1,49 @@
-import requests
+import urllib.request
 from bs4 import BeautifulSoup
-import html.parser
 
 URL = "https://www.reddit.com/r/depression/new/"
 # URL = "https://www.geeksforgeeks.org/implementing-web-scraping-python-scrapy/"
 
-r = requests.get(URL)
+source = urllib.request.urlopen(URL).read()
+soup = BeautifulSoup(source, 'lxml')
+# ---
+div_class_mainFrame = "rpBJOHq2PR60pnwJlUyP0"
 
-soup = BeautifulSoup(r.content, 'html.parser')
 
-body = soup.find('body')
+
+strsd = "_1oQyIsiPHYt6nx7VOmd1sz" + " " + "_1RYN-7H8gYctjOQeL8p2Q7"
+class_ids = ["_1oQyIsiPHYt6nx7VOmd1sz",
+             "_1RYN-7H8gYctjOQeL8p2Q7",
+             "scrollerItem",
+             "_3Qkp11fjcAw9I9wtLo8frE",
+             "_1qftyZQ2bhqP62lbPjoGAh",
+             "Post t3_dndr2h"]
+
+div = soup.findAll('div', class_=class_ids[0])
+div[1]['id']
+
 div = []
-div = body.findAll('div', class_='Chtkt3BCZQruf0LtmFg2c')
+for classId in class_ids:
+    if len(div) == 0:
+        tempDiv = soup.findAll('div', class_=class_ids[0])
+        div.append(temp.div)
+    else:
+        continue
+
+tempDiv[1].decompose()
+
+
+id_ = 
+class_id = """"""
+
+div = soup.findAll('div', class_=class_id)
+
 div[0]
-div[1]
+div[1].findAll('p')
 # ---
 # ignorar esse bloco
+
+
 div_root = []
 div_Root_Class1 = body.findAll(attrs={'class': '_1poyrkZ7g36PawDueRza-J'})
 div_Root_Class2 = body.findAll(attrs={'class': '_11R7M_VOgKO1RJyRSRErT3'})
