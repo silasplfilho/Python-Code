@@ -11,7 +11,7 @@ lastPage = paging.findAll('a')[-1].get('href')
 pageNumber = int(lastPage.split('p=')[-1]) # numero da ultima pagina da comunidade analisada
 
 # criando uma lista, onde cada elemento é um dicionario/thread
-threadList = [] # Lista que guardara os posts
+threadList = []  # Lista que guardara os posts
 dictLayout = dict()
 
 
@@ -67,20 +67,24 @@ postLink = threadList[0]['link']
 postLink = "https://www.healingwell.com"+ postLink
 source = urllib.request.urlopen(postLink).read()
 soup = BeautifulSoup(source, 'html.parser')
-#     
 
+comments = soup.find('div', class_='post-body')
 
-
-comments[2]
-
-
-
-
+while comments.findNext('div', class_='post-body') is not None:
+    commentBody = comments.text.split('\r\n')[1]
+    comments = comments.findNext('div')
 
 
 
 
 
+
+commentsPostDate = soup.find('div', class_='posted').text
+
+
+
+
+# ----------------------------
 source = urllib.request.urlopen(postLink).read()
 soup = BeautifulSoup(source, 'html.parser')
 # /community/default.aspx?f = 19 & m = 4141476
