@@ -1,0 +1,7 @@
+OpenSSL.SSL.SysCallError: (104, 'ECONNRESET')
+
+ssl.SSLError: ("bad handshake: SysCallError(104, 'ECONNRESET')",)
+
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='www.healingwell.com', port=443): Max retries exceeded with url: /community/default.aspx?f=19&m=4146352 (Caused by SSLError(SSLError("bad handshake: SysCallError(104, 'ECONNRESET')"))
+
+requests.exceptions.SSLError: HTTPSConnectionPool(host='www.healingwell.com', port=443): Max retries exceeded with url: /community/default.aspx?f=19&m=4146352 (Caused by SSLError(SSLError("bad handshake: SysCallError(104, 'ECONNRESET')")))

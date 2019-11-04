@@ -1,0 +1,20 @@
+,,Pergunta,Melhor,Bom,Ruim,Pior
+#,CES-D,Senti...,Não senti ou não lembro,Uma vez ou poucas vezes,Várias vezes,Quase sempre
+1,1,Preocupações com o jogo que normalmente não me aconteciam,0,1,2,3
+2,2,Perda de fome ou mudança de apetite por causa do jogo,0,1,2,3
+3,3,Que a ajuda da minha família ou amigos não me influenciavam positivamente por causa do jogo,0,1,2,3
+4,7,Minha presença ou rendimento no jogo como negativa ou em vão,0,1,2,3
+5,5,"Que acabei pensando principalmente no jogo fora dele, deixando o resto de lado",0,1,2,3
+6,18,Triste com o jogo,0,1,2,3
+7,9,"Que minha participação no jogo foi em vão, não adiantou nada",0,1,2,3
+8,4,"Receio de jogar, decepcionar os outros",0,1,2,3
+9,11,Que o jogo afetou meu sono,0,1,2,3
+10,13,Que interagi menos do que o normal ou que eu gostaria,0,1,2,3
+11,15,"Que as atitudes no jogo eram tóxicas, negativas",0,1,2,3
+12,17,Vontade de chorar por causa do que presenciei no jogo,0,1,2,3
+13,19,Que não gostaram da minha participação no jogo,0,1,2,3
+14,20,Que não consegui simplesmente deixar para lá o que acontecia,0,1,2,3
+,,Senti...,Pior,Ruim,Bom,Melhor
+15,12,Feliz com o jogo,3,2,1,0
+16,16,Que as atitudes no jogo eram positivas ou proveitosas,3,2,1,0
+17,8,Melhora positiva no jogo,3,2,1,0

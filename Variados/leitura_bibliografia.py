@@ -15,6 +15,13 @@ res = pd.DataFrame(ieee[ieee['status'].isin(['Unclassified', 'Accepted'])].loc[:
 res.to_csv(r'/home/silas/Downloads/ieee_uncl.csv', sep=';')
 
 # ----
+springer = biblio[biblio['source'] == 'Springer Link']
+res = pd.DataFrame(springer[springer['status'].isin(['Unclassified', 'Accepted'])].loc[:, 'doi']).reset_index(drop=True)
+res.to_csv(r'/home/silas/Downloads/springer_uncl.csv', sep=';')
+
+# ----
+
+
 scopus = biblio[biblio['source']=='Scopus']
 scopus['start'] = pd.DataFrame(scopus.pages.values)
 scopus = scopus.reset_index(drop='True')
