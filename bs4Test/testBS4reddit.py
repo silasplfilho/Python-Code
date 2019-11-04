@@ -29,25 +29,6 @@ for child in soup.descendants:
         print(child.name)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ----
 childrenDiv = mainDiv.findAll('div', id=str.startswith("t3_dr4j"))
 
