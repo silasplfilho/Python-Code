@@ -1,8 +1,6 @@
 # teste com library requests
 import requests
 
-# import urllib.request
-from bs4 import BeautifulSoup
 import re
 import json
 
@@ -14,9 +12,11 @@ from IPython.core.display import clear_output
 from warnings import warn
 
 # ----
-mainURL = "https://www.reddit.com/r/depression/new"
-source = requests.get(mainURL)
-soup = BeautifulSoup(source.content)
+mainURL = "https://www.reddit.com/r/depression/.json?count=10"
+source = requests.get(mainURL, headers={'User-agent': 'Chrome'})
+x = source.json()['data']['children'][0]
+x['data']['title']
+
 
 mainDiv = soup.findAll("div", class_='rpBJOHq2PR60pnwJlUyP0')
 threadDiv = soup.find_all('div', class_=re.compile('^_1oQyIsiPHYt6nx7VOmd1sz'))
