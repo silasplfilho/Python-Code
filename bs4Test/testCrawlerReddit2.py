@@ -4,27 +4,119 @@ import json
 
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
-from random import randint
+from random import randint, random
+import pandas as pd
+
 # ----
-
+# Primeiro obtendo uma lista de threads da pagina inicial
 mainURL = "https://www.reddit.com/r/depression/new.json"
-source = requests.get(mainURL, headers={'User-agent': 'smthn'})
+mainDocument = requests.get(mainURL, headers={'User-agent': 'smthn'}).json()
 
-r = json.dumps(source.json(), indent=2, sort_keys=True)
+# valor para controlar a continuacao de threads no scroll down
+pageControl = mainDocument['data']['after']
+# lista de threads na primeira paginacao
+threadList = mainDocument['data']['children']
 
-threadDictionary
+# with open('bs4Test/testReddit.json', 'w') as file:
+#     json.dump(threadList, file, indent=3, sort_keys=True)
+
+# -----------
+# lidando com o resultado
+start_time = time()
+requestsControl = 0
+
+with open('bs4Test/testReddit.json', 'r+') as file:
+    threadList = json.load(file)
+    # thread = threadList[23]['data']  # isso aqui deve sair depois
+    # thread['num_comments']
+
+for thread in threadList:
+    threadData = thread['data']
+    if threadData['num_comments'] > 0:
+        threadUrl = str(threadData['url']).strip('/') + '.json'
+
+        threadData['comments'] = SearchComments(threadUrl)
+        # Tempo de espera para outra requisição
+        requestsControl += 1
+        sleep(random() * 3 + 1)  # Escolhe um inteiro
+        current_time = time()
+        elapsed_time = current_time - start_time
+
+        # Tempo de espera para outra requisição
+        # requestsControl += 1
+        # sleep(random() * 3 + 1)  # Escolhe um inteiro
+        # current_time = time()
+        # elapsed_time = current_time - start_time
+        # ---
+
+with open('bs4Test/testReddit.json', 'w') as file:
+    json.dump(threadList, file, indent=4, sort_keys=True)
+
+# threadList[4]['data']['comments']
+# -----
+# CRIANDO FUNCAO PARA BUSCAR COMENTARIOS
+# url = threadUrl
 
 
+def SearchComments(url):
+    threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
+    print("Coletando comentários da thread {}.".format(threadResponseJson))
+    # len(threadResponseJson)
+    aux = threadResponseJson[1]['data']['children']
+    # type(aux)
+    # aux[1]
+    # numberComments = threadResponseJson[0]['data']['children']
+    # len(numberComments)
 
+    # threadCommentsDict = dict()
+    # listComments = []
 
+    # threadIterator = 0
+    # for threadIterator in range(1, numberComments):
+    #     aux = threadResponseJson[threadIterator]['data']
+    #     aux = aux['children']
+    #     content = aux[0]['data']
+    #     print(content['author'], content['body'])
+        
+    #     listComments.extend(content)
 
+    #     len(listComments)
+    #     listComments[-1]['body']
 
+    # threadCommentsDict['comments'] = aux
 
+    return aux
+    # return threadCommentsDict
 
-
+# -------------------------------
+# accessing a thread link and getting its comments
+r2['kind']
+r3 = pd.DataFrame(r2['data'])
+r3.to_csv('bs4Test/DFredditTest.csv', sep='@')
+# - COMENTARIOS SOBRE COMO PROCEDER A COLETA
+"""
+1 - Primeiro eu faço a coleta de uma lista inicial.
+2 - Dessa lista inicial, faco duas coisas: (1-eu transformo os dados obtidos num dicionario),
+                                           (2-obtenho uma variavel com o valor 'before', que
+                                           controla a continuacao do scroll down)
+3 - 
+"""
+# --
 with open('bs4Test/testReddit.json', 'w') as file:
     json.dump(source.json(), file, indent=2, sort_keys=True)
 # type(threadList)
+# ------
+with open('bs4Test/testReddit.json', 'r+') as file:
+    dataset = json.load(file)
+    dataset['id'] = 134  # <--- add `id` value.
+    file.seek(0)        # <--- should reset file position to the beginning.
+    json.dump(dataset, file, indent=4)
+    file.truncate()
+
+control = dataset['before']
+
+# ------
+
 
 source.json()['data']['after']
 source.json()['data']['before']
