@@ -17,8 +17,8 @@ pageControl = mainDocument['data']['after']
 # lista de threads na primeira paginacao
 threadList = mainDocument['data']['children']
 
-# with open('bs4Test/testReddit.json', 'w') as file:
-#     json.dump(threadList, file, indent=3, sort_keys=True)
+with open('bs4Test/testReddit.json', 'w') as file:
+    json.dump(threadList, file, indent=3, sort_keys=True)
 
 # -----------
 # lidando com o resultado
@@ -52,17 +52,14 @@ for thread in threadList:
 with open('bs4Test/testReddit.json', 'w') as file:
     json.dump(threadList, file, indent=4, sort_keys=True)
 
-# threadList[4]['data']['comments']
 # -----
 # CRIANDO FUNCAO PARA BUSCAR COMENTARIOS
-# url = threadUrl
-
-
 def SearchComments(url):
     threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
-    print("Coletando comentários da thread {}.".format(threadResponseJson))
-    # len(threadResponseJson)
     aux = threadResponseJson[1]['data']['children']
+
+    print("Coletando comentários da thread {}.".format(url))
+    print("This thread has {} comments".format(len(aux)))
     # type(aux)
     # aux[1]
     # numberComments = threadResponseJson[0]['data']['children']
@@ -90,9 +87,9 @@ def SearchComments(url):
 
 # -------------------------------
 # accessing a thread link and getting its comments
-r2['kind']
-r3 = pd.DataFrame(r2['data'])
-r3.to_csv('bs4Test/DFredditTest.csv', sep='@')
+# r2['kind']
+# r3 = pd.DataFrame(r2['data'])
+# r3.to_csv('bs4Test/DFredditTest.csv', sep='@')
 # - COMENTARIOS SOBRE COMO PROCEDER A COLETA
 """
 1 - Primeiro eu faço a coleta de uma lista inicial.
@@ -102,35 +99,35 @@ r3.to_csv('bs4Test/DFredditTest.csv', sep='@')
 3 - 
 """
 # --
-with open('bs4Test/testReddit.json', 'w') as file:
-    json.dump(source.json(), file, indent=2, sort_keys=True)
-# type(threadList)
-# ------
-with open('bs4Test/testReddit.json', 'r+') as file:
-    dataset = json.load(file)
-    dataset['id'] = 134  # <--- add `id` value.
-    file.seek(0)        # <--- should reset file position to the beginning.
-    json.dump(dataset, file, indent=4)
-    file.truncate()
+# with open('bs4Test/testReddit.json', 'w') as file:
+#     json.dump(source.json(), file, indent=2, sort_keys=True)
+# # type(threadList)
+# # ------
+# with open('bs4Test/testReddit.json', 'r+') as file:
+#     dataset = json.load(file)
+#     dataset['id'] = 134  # <--- add `id` value.
+#     file.seek(0)        # <--- should reset file position to the beginning.
+#     json.dump(dataset, file, indent=4)
+#     file.truncate()
 
-control = dataset['before']
+# control = dataset['before']
 
-# ------
+# # ------
 
 
-source.json()['data']['after']
-source.json()['data']['before']
-# -----------------
-mainURL = "https://www.reddit.com/r/depression/new.json"
-new_url = mainURL + '?&after=' + source.json()['data']['after'] + '&dist=100'
-page2 = requests.get(new_url, headers={'User-agent': 'smthn'})
-page2.json
-r = json.dumps(page2.json(), indent=2, sort_keys=True)
-page2.json()['data']
+# source.json()['data']['after']
+# source.json()['data']['before']
+# # -----------------
+# mainURL = "https://www.reddit.com/r/depression/new.json"
+# new_url = mainURL + '?&after=' + source.json()['data']['after'] + '&dist=100'
+# page2 = requests.get(new_url, headers={'User-agent': 'smthn'})
+# page2.json
+# r = json.dumps(page2.json(), indent=2, sort_keys=True)
+# page2.json()['data']
 
-page2.json()['data']['after']
-page2.json()['data']['before']
-r2 = page2.json()
+# page2.json()['data']['after']
+# page2.json()['data']['before']
+# r2 = page2.json()
 # -----------------
 """
 Lista de atributos a serem feita a persistencia num BD
