@@ -4,8 +4,21 @@ import json
 
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
-from random import randint, random
-import pandas as pd
+from random import random
+
+# CRIANDO FUNCAO PARA BUSCAR COMENTARIOS
+
+
+def SearchComments(url):
+    threadResponseJson = requests.get(
+        url, headers={'User-agent': 'smthn'}).json()
+    aux = threadResponseJson[1]['data']['children']
+
+    print("Coletando comentários da thread {}.".format(url))
+    print("This thread has {} comments".format(len(aux)))
+
+    return aux
+
 
 # ----
 # Primeiro obtendo uma lista de threads da pagina inicial
@@ -27,8 +40,6 @@ requestsControl = 0
 
 with open('bs4Test/testReddit.json', 'r+') as file:
     threadList = json.load(file)
-    # thread = threadList[23]['data']  # isso aqui deve sair depois
-    # thread['num_comments']
 
 for thread in threadList:
     threadData = thread['data']
@@ -41,49 +52,13 @@ for thread in threadList:
         sleep(random() * 3 + 1)  # Escolhe um inteiro
         current_time = time()
         elapsed_time = current_time - start_time
-
-        # Tempo de espera para outra requisição
-        # requestsControl += 1
-        # sleep(random() * 3 + 1)  # Escolhe um inteiro
-        # current_time = time()
-        # elapsed_time = current_time - start_time
         # ---
 
 with open('bs4Test/testReddit.json', 'w') as file:
     json.dump(threadList, file, indent=4, sort_keys=True)
-
 # -----
-# CRIANDO FUNCAO PARA BUSCAR COMENTARIOS
-def SearchComments(url):
-    threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
-    aux = threadResponseJson[1]['data']['children']
-
-    print("Coletando comentários da thread {}.".format(url))
-    print("This thread has {} comments".format(len(aux)))
-    # type(aux)
-    # aux[1]
-    # numberComments = threadResponseJson[0]['data']['children']
-    # len(numberComments)
-
-    # threadCommentsDict = dict()
-    # listComments = []
-
-    # threadIterator = 0
-    # for threadIterator in range(1, numberComments):
-    #     aux = threadResponseJson[threadIterator]['data']
-    #     aux = aux['children']
-    #     content = aux[0]['data']
-    #     print(content['author'], content['body'])
-        
-    #     listComments.extend(content)
-
-    #     len(listComments)
-    #     listComments[-1]['body']
-
-    # threadCommentsDict['comments'] = aux
-
-    return aux
-    # return threadCommentsDict
+# ACIMA - ETAPA INICIAL DE COLETA DE THREADS E COMENTARIOS DA PRIMEIRA PAGINA - CONCLUIDO
+# AGORA O DESAFIO É FAZER O SCROLL DOWN
 
 # -------------------------------
 # accessing a thread link and getting its comments
@@ -96,25 +71,10 @@ def SearchComments(url):
 2 - Dessa lista inicial, faco duas coisas: (1-eu transformo os dados obtidos num dicionario),
                                            (2-obtenho uma variavel com o valor 'before', que
                                            controla a continuacao do scroll down)
-3 - 
+3 - Apos coletar as threads da primeira pagina e seus comentarios, 
+uso a variavel com o valor de 'before' para fazer uma nova requisicao
 """
-# --
-# with open('bs4Test/testReddit.json', 'w') as file:
-#     json.dump(source.json(), file, indent=2, sort_keys=True)
-# # type(threadList)
-# # ------
-# with open('bs4Test/testReddit.json', 'r+') as file:
-#     dataset = json.load(file)
-#     dataset['id'] = 134  # <--- add `id` value.
-#     file.seek(0)        # <--- should reset file position to the beginning.
-#     json.dump(dataset, file, indent=4)
-#     file.truncate()
-
-# control = dataset['before']
-
-# # ------
-
-
+# ------
 # source.json()['data']['after']
 # source.json()['data']['before']
 # # -----------------
