@@ -48,7 +48,7 @@ def timeSleep():
 
 
 # FUNCAO PARA BUSCA DE CONTINUA DE THREADS NUM DETERMINADO SUBREDDIT
-def searchThreads(subRedditName, qtdDays):
+def SearchThreads(subRedditName, qtdDays):
     # ACRESCENTAR UM CONTROLE PARA SABER SE É A PRIMEIRA VEZ QUE SE RODA ESSA FUNÇÃO
     controlVariable = True
     pagingControl = None
@@ -94,3 +94,13 @@ def searchThreads(subRedditName, qtdDays):
             continue
 
     return print("acabou")
+
+
+def SearchComments(url):
+    threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
+    aux = threadResponseJson[1]['data']['children']
+
+    print("Coletando comentários da thread {}.".format(url))
+    print("This thread has {} comments".format(len(aux)))
+
+    return aux
