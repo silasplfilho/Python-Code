@@ -4,7 +4,8 @@ import json
 from time import sleep, time
 from datetime import date
 from random import random
-
+# pacotes para trabalhar com threads e queues
+from multiprocessing import Pipe
 
 # - COMENTARIOS SOBRE COMO PROCEDER A COLETA
 """
@@ -73,10 +74,11 @@ def SearchThreads(subRedditName, qtdDays):
 
     # --------------------------------------------------------------------------------------------
         # - gravando a lista de threads/posts num arquivo .json
-        print("Salvando as threads iniciais. Num total de {}".format(len(threadList)))
-        with open('bs4Test/testReddit.json', 'a+') as file:
-            json.dump(threadList, file, indent=3, sort_keys=True)
-
+        writeThreadList2Json(threadList)
+        # print("Salvando as threads iniciais. Num total de {}".format(len(threadList)))
+        # with open('bs4Test/testReddit.json', 'a+') as file:
+        #     json.dump(threadList, file, indent=3, sort_keys=True)
+        # TALVEZ ACRESCENTAR O JOB AQUI?????
     # --------------------------------------------------------------------------------------------
     # Funcao para aguardar uma quantidade determinada de tempo para uma nova requisicao
         timeSleep()
@@ -88,7 +90,7 @@ def SearchThreads(subRedditName, qtdDays):
 
         actualDate = date.today()
 
-        if (actualDate - timeControl).days > qtdDays:
+        if (actualDate - timeControl).days > int(qtdDays):
             controlVariable = False
         else:
             continue
@@ -96,11 +98,29 @@ def SearchThreads(subRedditName, qtdDays):
     return print("acabou")
 
 
-def SearchComments(url):
+def writeThreadList2Json(threadListObject):
+    output_pipe, _ = pipe
+    print("Salvando as threads iniciais. Num total de {}".format(len(threadListObject)))
+    with open('bs4Test/testReddit.json', 'a') as file:
+        json.dump(threadListObject[0], file, indent=3, sort_keys=True)
+
+        output_pipe.send(threadListObject[0])
+        output_pipe.close()
+
+        # event = Event()
+        # output_q.put((threadListObject, event))
+        # TALVEZ ACRESCENTAR O JOB AQUI?????
+
+
+def SearchComments(threadInstance):
+    url = threadInstance['data']['url']
+
     threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
     aux = threadResponseJson[1]['data']['children']
 
     print("Coletando comentários da thread {}.".format(url))
-    print("This thread has {} comments".format(len(aux)))
+    print("Essa thread possui {} comments".format(len(aux)))
+
+    threadInstance['comments'] = aux
 
     return aux

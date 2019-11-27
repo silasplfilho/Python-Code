@@ -11,7 +11,8 @@ from random import random
 
 from IPython.core.display import clear_output
 from warnings import warn
-
+from datetime import datetime
+import json
 # -------------------------------
 # funcao para buscar comentarios
 
@@ -24,14 +25,18 @@ def threadCommentSeekerPagination(soupVariable):
 
     for i in range(0, len(smthng), 3):
         commentDict['commentAuthor'] = smthng[i].text  # Autor do Comentario
-        commentDict['commentTimestamp'] = smthng[i+1].text  # Data da publicacao
         commentDict['comment'] = str(smthng[i+2].text).strip()  # Texto do Comentario
+        # treating the timestamp string
+        try:
+            commentTimestamp = (smthng[i+1].text).strip("Posted ")
+            timestamp_idx = commentTimestamp.find(" (GMT")
+            commentTimestamp = commentTimestamp[:timestamp_idx]
+            commentTimestamp = datetime.strptime(commentTimestamp, '%m/%d/%Y %I:%M %p')
+            commentDict['commentTimestamp'] = datetime.timestamp(commentTimestamp)  # Data da publicacao
+        except Exception:
+            commentDict['commentTimestamp'] = (smthng[i+1].text).strip("Posted ")
 
         threadComments.append(commentDict.copy())
-
-        # threadComments.append({'commentAuthor': commentDict['commentAuthor'],
-        #                        'commentTimestamp': commentDict['commentTimestamp'],
-        #                        'comment': commentDict['comment']})
 
     return threadComments
 
@@ -40,9 +45,6 @@ def threadCommentSeekerPagination(soupVariable):
 mainURL = "https://www.healingwell.com/community/default.aspx?f=19"
 source = requests.get(mainURL)
 soup = BeautifulSoup(source.content)
-
-# source = urllib.request.urlopen(mainURL).read()
-# soup = BeautifulSoup(source, 'html.parser')
 
 paging = soup.find("div", class_='page-listing-bottom')
 lastPage = paging.findAll('a')[-1].get('href')
@@ -57,28 +59,26 @@ for pageIterator in range(2):
     threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
     source = requests.get(threadURL)
     soup = BeautifulSoup(source.content)
-    # source = urllib.request.urlopen(URL).read()
-    # soup = BeautifulSoup(source, 'html.parser')
-
     # ---
     # tentando chegar direto no div que tem a informacao necessaria
-    focusedDiv = soup.find('div', class_='section-body-secondary')
-
+    # focusedDiv = soup.find('div', class_='section-body-secondary')
     threadDiv = soup.findAll('div', class_=re.compile("row fugazi forum-list"))
     threadDiv[0].text.replace('^\n', '')
-
-    threadDiv[0].text
+    # threadDiv[0].text
     threadDiv[0].find('a', class_='forum-title').get('href')
 
     # ---
     for thread in threadDiv:
         dictLayout['last_date'] = thread.find('div', class_='last-comment-date').text
-        dictLayout['author'] = thread.p.text
+        dictLayout['author'] = (thread.p.text).split("By ")[1]
         dictLayout['title'] = thread.a.text
         dictLayout['views'] = thread.find('div', class_='views').text
         dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
         # print(dictLayout)
         threadList.append(dictLayout.copy())
+# -----------------------------------
+with open('bs4Test/testHealingWellThreads.json', 'w') as file:
+    json.dump(threadList, file)
 # -----------------------------------
 # BUSCANDO COMENTARIOS PARA CADA THREAD
 start_time = time()
@@ -135,7 +135,6 @@ for postIterator in threadList:
                                                                  requestsControl/elapsed_time))
             print("\n")
 
-            # comments = threadCommentSeekerPagination(soup)
             threadListComments.extend(threadCommentSeekerPagination(soup))
 
         postIterator['postContent'] = threadListComments
@@ -143,9 +142,27 @@ for postIterator in threadList:
     else:
         comments = threadCommentSeekerPagination(soup)
         postIterator['postContent'] = comments
+# ------------------------
+with open('bs4Test/testHealingWell2.json', 'w') as file:
+    json.dump(threadList, file)
+# ------------------------
+# TESTES P BAIXO
+# dateexe = 'Posted 10/27/2019 1:43 AM (GMT -7)'
+# dateexe = dateexe.strip("Posted by ")
+# timestamp_idx = dateexe.find(" (GMT")
+# dateexe = dateexe[:timestamp_idx]
 
-    # ---
-    # print(postIterator['postContent'])
+# x = datetime.strptime(dateexe, '%m/%d/%Y %I:%M %p')
+# datetime.timestamp(x)
+
+
+# smthng = soup.findAll('div', class_='posted')
+# (smthng.text)[:26].strip("Posted by ")
+
+#     threadComments = []
+#     commentDict = dict()
+# ------------------------
+# print(postIterator['postContent'])
 # len(postIterator)
 # threadList[0]
 # ['postContent']
