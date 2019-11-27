@@ -9,14 +9,28 @@ import re
 from time import sleep, time
 from random import random
 
-from IPython.core.display import clear_output
 from warnings import warn
 from datetime import datetime
 import json
 # -------------------------------
+
+
+def timeSleep():
+    # - variaveis para controle de tempo/sleep
+    start_time = time()
+    requestsControl = 0
+
+    # - Tempo de espera para outra requisição
+    requestsControl += 1
+    sleep(random() * 3 + 1)  # - Escolhe um inteiro
+    current_time = time()
+    elapsed_time = current_time - start_time
+
+    print('Request: {}; Frequency: {} requests/s'.format(requestsControl,
+                                                         requestsControl/elapsed_time))
+
+
 # funcao para buscar comentarios
-
-
 def threadCommentSeekerPagination(soupVariable):
     # autor, timestamp e comentarios do post
     smthng = soupVariable.findAll(['a', 'div'], class_=['user-name', 'post-body', 'posted'])
@@ -54,17 +68,15 @@ pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunid
 threadList = []  # Lista que guardara os posts
 dictLayout = dict()
 
-for pageIterator in range(2):
+for pageIterator in range(1):
     # definindo parametros a serem manipulados
     threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
     source = requests.get(threadURL)
     soup = BeautifulSoup(source.content)
     # ---
     # tentando chegar direto no div que tem a informacao necessaria
-    # focusedDiv = soup.find('div', class_='section-body-secondary')
     threadDiv = soup.findAll('div', class_=re.compile("row fugazi forum-list"))
     threadDiv[0].text.replace('^\n', '')
-    # threadDiv[0].text
     threadDiv[0].find('a', class_='forum-title').get('href')
 
     # ---
@@ -74,35 +86,34 @@ for pageIterator in range(2):
         dictLayout['title'] = thread.a.text
         dictLayout['views'] = thread.find('div', class_='views').text
         dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
-        # print(dictLayout)
         threadList.append(dictLayout.copy())
+
+    timeSleep()
+
 # -----------------------------------
-with open('bs4Test/testHealingWellThreads.json', 'w') as file:
+with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'w') as file:
     json.dump(threadList, file)
 # -----------------------------------
+
+
 # BUSCANDO COMENTARIOS PARA CADA THREAD
 start_time = time()
 requestsControl = 0
+commentsDictionary = dict()
+commentsList = []
+
+with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as file:
+    threadList = json.load(file)
+
 
 for postIterator in threadList:
     # Controle da requisicao
-    requestsControl += 1
-    sleep(random() * 3 + 1)  # Escolhe um inteiro
-    current_time = time()
-    elapsed_time = current_time - start_time
-    # ---
+    timeSleep()
 
     # Trecho que faz a requisicao com requests
     postLink = "https://www.healingwell.com" + postIterator['link']
     source = requests.get(postLink)
     soup = BeautifulSoup(source.content)
-    # ---
-    print("Getting information from post: {}; The status code was; {}".format(postLink,
-                                                                              source.status_code))
-    print('Request: {}; Frequency: {} requests/s'.format(requestsControl,
-                                                         requestsControl/elapsed_time))
-    print("\n")
-    clear_output(wait=True)
 
     if source.status_code != 200:
         warn('request: {}; Status code: {}'.format(requestsControl, source.status_code))
@@ -117,22 +128,17 @@ for postIterator in threadList:
     if (x is not None) and (len(x) > 1):
         threadListComments = []
         for threadPage in range(1, len(x)+1):
-            # print(threadPage)
-            requestsControl += 1
-            sleep(random() * 3 + 1)  # Escolhe um inteiro
-            current_time = time()
-            elapsed_time = current_time - start_time
+            timeSleep()  # tempo de espera
 
             postLink = "https://www.healingwell.com" + postIterator['link']\
                 + '&p={}'.format(threadPage)
             source = requests.get(postLink)
             soup = BeautifulSoup(source.content)
-
             # ---
             print("""Getting information from post: {};
                     The status code was; {}""".format(postLink, source.status_code))
-            print('Request: {}; Frequency: {} requests/s'.format(requestsControl,
-                                                                 requestsControl/elapsed_time))
+            # print('Request: {}; Frequency: {} requests/s'.format(requestsControl,
+            #                                                      requestsControl/elapsed_time))
             print("\n")
 
             threadListComments.extend(threadCommentSeekerPagination(soup))
@@ -142,8 +148,10 @@ for postIterator in threadList:
     else:
         comments = threadCommentSeekerPagination(soup)
         postIterator['postContent'] = comments
+
+    commentsList.extend(postIterator['link'])
 # ------------------------
-with open('bs4Test/testHealingWell2.json', 'w') as file:
+with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'w') as file:
     json.dump(threadList, file)
 # ------------------------
 # TESTES P BAIXO
