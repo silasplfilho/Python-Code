@@ -5,7 +5,7 @@ from time import sleep, time
 from datetime import date
 from random import random
 # pacotes para trabalhar com threads e queues
-from multiprocessing import Pipe
+# import multiprocessing
 
 # - COMENTARIOS SOBRE COMO PROCEDER A COLETA
 """
@@ -31,8 +31,13 @@ ALGUMAS OBSERVACOES E MELHORIAS PARA O SCRIPT:
 1 - nao esta funcionando o argumento 'dist'. Tento aumentar a quantidade de threads retornadas
 pela requisicao
 """
+# variaveis de teste nas 2as linhas abaixo
+# subRedditName = "Depression"
+# qtdDays = 0
+# mainURL = "https://www.reddit.com/r/Depression/new.json"
 
 
+# FUNCAO QUE FAZ O PROCESSO AGUARDAR UMA QUANTIDADE ALEATORIA DE SEGUNDOS ENTRE 1 E 4.
 def timeSleep():
     # - variaveis para controle de tempo/sleep
     start_time = time()
@@ -48,16 +53,47 @@ def timeSleep():
                                                          requestsControl/elapsed_time))
 
 
+# Funcao abaixo é uma tentativa de usar multiprocessing.pipe
+def SearchandStoreCommentsQUEUE(queueObject):
+    while True:
+        if (queueObject.empty()):
+            print("queue object is empty")
+            break
+        else:
+            threadsList = queueObject.get()
+            print(len(threadsList))
+
+            for thread in threadsList:
+                x = thread['data']
+                if x['num_comments'] > 0:
+                    threadInstanceURL = (x['url'])
+                    print("Obtendo comentarios da thread {}".format(threadInstanceURL))
+                    threadResponseJson = requests.get((threadInstanceURL + ".json"),
+                                                      headers={'User-agent':    'smthn'})
+                    threadResponseJson = json.loads(threadResponseJson.content)
+                    aux = threadResponseJson[1]['data']['children']
+
+            # print("Coletando comentários da thread {}.".format(url))
+            print("Essa thread possui {} comments".format(len(aux)))
+            with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
+                json.dump(aux, file, indent=3, sort_keys=True)
+
+
+def writeThreadList2Json(threadListObject):
+    print("Salvando as threads iniciais. Num total de {}".format(len(threadListObject)))
+    with open('Crawlers/RedditCrawler/testRedditThreads.json', 'a') as file:
+        json.dump(threadListObject[0], file, indent=3, sort_keys=True)
+
+
 # FUNCAO PARA BUSCA DE CONTINUA DE THREADS NUM DETERMINADO SUBREDDIT
-def SearchThreads(subRedditName, qtdDays):
+def SearchThreads(subRedditName, qtdDays, queueObject):
     # ACRESCENTAR UM CONTROLE PARA SABER SE É A PRIMEIRA VEZ QUE SE RODA ESSA FUNÇÃO
     controlVariable = True
     pagingControl = None
     mainUrl = "https://www.reddit.com/r/" + subRedditName + "/new.json"
 
+    print("Buscando threads do subreddit: {}".format(subRedditName))
     while controlVariable is True:
-        print("Buscando threads do subreddit: {}".format(subRedditName))
-
         if pagingControl is not None:
             # STAGE: ALTERAR A URL PARA ACRESCENTAR O VALOR DE CONTROLE AFTER
             print("The variable control current state is: {}".format(pagingControl))
@@ -72,15 +108,11 @@ def SearchThreads(subRedditName, qtdDays):
         # - lista de threads na primeira paginacao
         threadList = pageSource['data']['children']
 
-    # --------------------------------------------------------------------------------------------
-        # - gravando a lista de threads/posts num arquivo .json
+        # Gravando a lista de threads/posts num arquivo .json
+        queueObject.put(threadList)
         writeThreadList2Json(threadList)
-        # print("Salvando as threads iniciais. Num total de {}".format(len(threadList)))
-        # with open('bs4Test/testReddit.json', 'a+') as file:
-        #     json.dump(threadList, file, indent=3, sort_keys=True)
-        # TALVEZ ACRESCENTAR O JOB AQUI?????
-    # --------------------------------------------------------------------------------------------
-    # Funcao para aguardar uma quantidade determinada de tempo para uma nova requisicao
+
+        # Funcao para aguardar uma quantidade determinada de tempo
         timeSleep()
 
         # - Controle de continuação do 'while'
@@ -98,29 +130,33 @@ def SearchThreads(subRedditName, qtdDays):
     return print("acabou")
 
 
-def writeThreadList2Json(threadListObject):
-    output_pipe, _ = pipe
-    print("Salvando as threads iniciais. Num total de {}".format(len(threadListObject)))
-    with open('bs4Test/testReddit.json', 'a') as file:
-        json.dump(threadListObject[0], file, indent=3, sort_keys=True)
+# def SearchComments(threadInstance):
+#     url = threadInstance['data']['url']
 
-        output_pipe.send(threadListObject[0])
-        output_pipe.close()
+#     threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
+#     aux = threadResponseJson[1]['data']['children']
 
-        # event = Event()
-        # output_q.put((threadListObject, event))
-        # TALVEZ ACRESCENTAR O JOB AQUI?????
+#     print("Coletando comentários da thread {}.".format(url))
+#     print("Essa thread possui {} comments".format(len(aux)))
+
+#     threadInstance['comments'] = aux
+
+#     return aux
 
 
-def SearchComments(threadInstance):
-    url = threadInstance['data']['url']
+# ---
+# area de testes
+mainUrl = "https://www.reddit.com/r/" + "Depression" + "/new.json"
+pageSource = requests.get(mainUrl, headers={'User-agent': 'smthn'}).json()
+pagingControl = pageSource['data']['after']
+threadList = pageSource['data']['children']
 
-    threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
-    aux = threadResponseJson[1]['data']['children']
+for t in threadList:
+    print(t['data']['num_comments'])
+threadList[0]
+# url = "https://www.reddit.com/r/depression/comments/e51vnb/christmas/"
+# threadResponseJson = requests.get((url + ".json"), headers={'User-agent': 'smthn'})
+# threadResponseJson.content
 
-    print("Coletando comentários da thread {}.".format(url))
-    print("Essa thread possui {} comments".format(len(aux)))
-
-    threadInstance['comments'] = aux
-
-    return aux
+# x = threadList[0]
+# len(threadList) - threadList.index(x)
