@@ -7,7 +7,9 @@ if __name__ == "__main__":
 
     queueObject = multiprocessing.Queue()
 
-    p1 = multiprocessing.Process(target=rTC.SearchThreads, args=("Depression", qtdDias, queueObject))
+    p1 = multiprocessing.Process(target=rTC.SearchThreads,
+                                 args=(queueObject, "Depression", qtdDias))
+
     p2 = multiprocessing.Process(target=rTC.SearchandStoreCommentsQUEUE, args=(queueObject,))
 
     p1.start()
@@ -15,3 +17,5 @@ if __name__ == "__main__":
 
     p1.join()
     p2.join()
+
+queueObject.close()
