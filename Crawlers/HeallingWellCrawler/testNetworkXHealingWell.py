@@ -1,10 +1,9 @@
 import networkx as nx
-# import igraph
-
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import itertools
+# -----------------
 with open("Crawlers/HeallingWellCrawler/testHealingWellThreads.json", 'r') as f:
     dataset = json.load(f)
     dataset = pd.DataFrame(dataset)
@@ -21,7 +20,7 @@ for index, item in dataset.iterrows():
     # print(itemId, qtdViews)
     G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')
 
-# ------
+# -----------------
 links = list(dataset['link'].str.strip("/community/default.aspx?f=19&m="))
 authors = list(dataset.loc[:, 'author'])
 edgesList = list(zip(authors, links))
@@ -32,6 +31,36 @@ color_map = {'user': 'b', 'post': 'r'}
 nx.draw(G, with_labels=True, node_color=[color_map[G.nodes[node]['type']] for node in G])
 plt.show()
 # -----------------
-G2 = nx.from_pandas_edgelist(dataset, source='author', target='link')
-nx.draw_networkx(G2)
+# SEGUNDO EXEMPLO DE MODELAGEM
+# -----------------
+G2 = nx.Graph()
+with open("Crawlers/HeallingWellCrawler/testHealingWellComments.json", 'r') as f:
+    CommentsDataset = json.load(f)
+    # CommentsDataset = pd.DataFrame(CommentsDataset)
+
+AuthorsNamesList = []
+
+for thread in CommentsDataset:
+    listAuxiliar = [x['commentAuthor'] for x in thread['postContent']]  # list comprehension
+    # AuthorsNamesList.remove(-1)
+    # del listAuxiliar[0]
+    AuthorsNamesList.append(listAuxiliar)
+
+a = itertools.combinations(AuthorsNamesList[0], 2)
+a
+
+for elem in AuthorsNamesList:
+    auxList = itertools.combinations(elem, 2)
+    G2.add_edges_from(auxList)
+
+pos = nx.spring_layout(G2)
+nx.draw(G2, pos, with_labels=False)
+for p in pos:  # raise text positions
+    pos[p][1] += 0.07
+nx.draw_networkx_labels(G2, pos, font_color='r', font_size=7, font_weight='bold')
 plt.show()
+
+# -------------------
+nx.degree_centrality(G2)
+nx.closeness_centrality(G2)
+nx.betweenness_centrality(G2)
