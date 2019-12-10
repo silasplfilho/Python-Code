@@ -4,6 +4,7 @@ import json
 from time import sleep, time
 from datetime import date
 from random import random
+# import multiprocessing
 # pacotes para trabalhar com threads e queues
 # import multiprocessing
 
@@ -56,33 +57,55 @@ def timeSleep():
 # Funcao abaixo é uma tentativa de usar multiprocessing.pipe
 def SearchandStoreCommentsQUEUE(queueObject):
     while True:
-        if (queueObject.empty()):
-            print("queue object is empty")
+        threadsList = queueObject.get()
+
+        for thread in threadsList:
+            x = thread['data']
+            if x['num_comments'] > 0:
+                threadInstanceURL = (x['url'])
+                print("Obtendo comentarios da thread {}".format(threadInstanceURL))
+                threadResponseJson = requests.get((threadInstanceURL + ".json"),
+                                                  headers={'User-agent': 'smthn'})
+                threadResponseJson = json.loads(threadResponseJson.content)
+                aux = threadResponseJson[1]['data']['children']
+                print("Essa thread possui {} comments".format(len(aux)))
+            else:
+                continue
+
+        with open('Crawlers/RedditCrawler/testRedditComments.json', 'a') as file:
+            json.dump(aux, file, indent=3, sort_keys=True)
+
+        if len(threadsList) < 0:
+            print("nao há mais thread a serem buscadas os comentarios")
             break
-        else:
-            threadsList = queueObject.get()
-            print(len(threadsList))
 
-            for thread in threadsList:
-                x = thread['data']
-                if x['num_comments'] > 0:
-                    threadInstanceURL = (x['url'])
-                    print("Obtendo comentarios da thread {}".format(threadInstanceURL))
-                    threadResponseJson = requests.get((threadInstanceURL + ".json"),
-                                                      headers={'User-agent':    'smthn'})
-                    threadResponseJson = json.loads(threadResponseJson.content)
-                    aux = threadResponseJson[1]['data']['children']
+        # if (queueObject.empty()):
+        #     print("queue object is empty")
+        #     break
+        # else:
+        #     threadsList = queueObject.get()
+        #     print(len(threadsList))
 
-            # print("Coletando comentários da thread {}.".format(url))
-            print("Essa thread possui {} comments".format(len(aux)))
-            with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
-                json.dump(aux, file, indent=3, sort_keys=True)
+        #     for thread in threadsList:
+        #         x = thread['data']
+        #         if x['num_comments'] > 0:
+        #             threadInstanceURL = (x['url'])
+        #             print("Obtendo comentarios da thread {}".format(threadInstanceURL))
+        #             threadResponseJson = requests.get((threadInstanceURL + ".json"),
+        #                                               headers={'User-agent':    'smthn'})
+        #             threadResponseJson = json.loads(threadResponseJson.content)
+        #             aux = threadResponseJson[1]['data']['children']
+
+        #     # print("Coletando comentários da thread {}.".format(url))
+        #     print("Essa thread possui {} comments".format(len(aux)))
+        #     with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
+        #         json.dump(aux, file, indent=3, sort_keys=True)
 
 
-def writeThreadList2Json(threadListObject):
-    print("Salvando as threads iniciais. Num total de {}".format(len(threadListObject)))
-    with open('Crawlers/RedditCrawler/testRedditThreads.json', 'a') as file:
-        json.dump(threadListObject[0], file, indent=3, sort_keys=True)
+def writeThreadList2Json(threadListObject, name2bsaved):
+    print("Salvando {} threads".format(len(threadListObject)))
+    with open('Crawlers/RedditCrawler/test' + name2bsaved + '.json', 'a') as file:
+        json.dump(threadListObject, file, indent=3, sort_keys=True)
 
 
 # FUNCAO PARA BUSCA DE CONTINUA DE THREADS NUM DETERMINADO SUBREDDIT
@@ -91,6 +114,7 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
     controlVariable = True
     pagingControl = None
     mainUrl = "https://www.reddit.com/r/" + subRedditName + "/new.json"
+    i = 0  # variavel de teste - limita a quantidade de vezes que vou executar a funcao
 
     print("Buscando threads do subreddit: {}".format(subRedditName))
     while controlVariable is True:
@@ -110,39 +134,27 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
 
         # Gravando a lista de threads/posts num arquivo .json
         queueObject.put(threadList)
-        writeThreadList2Json(threadList)
+        writeThreadList2Json(threadList, "threadList")
 
         # Funcao para aguardar uma quantidade determinada de tempo
         timeSleep()
 
         # - Controle de continuação do 'while'
-        lastElement = threadList[-1]
-        timeControl = lastElement['data']['created_utc']
-        timeControl = date.fromtimestamp(timeControl)
+        # lastElement = threadList[-1]
+        # timeControl = lastElement['data']['created_utc']
+        # timeControl = date.fromtimestamp(timeControl)
 
-        actualDate = date.today()
+        # actualDate = date.today()
 
-        if (actualDate - timeControl).days > int(qtdDays):
+        # if (actualDate - timeControl).days > int(qtdDays): comentando para fazer testes
+        #     controlVariable = False
+        if i == 0:
             controlVariable = False
         else:
+            i = i+1
             continue
 
-    return print("acabou")
-
-
-# def SearchComments(threadInstance):
-#     url = threadInstance['data']['url']
-
-#     threadResponseJson = requests.get(url, headers={'User-agent': 'smthn'}).json()
-#     aux = threadResponseJson[1]['data']['children']
-
-#     print("Coletando comentários da thread {}.".format(url))
-#     print("Essa thread possui {} comments".format(len(aux)))
-
-#     threadInstance['comments'] = aux
-
-#     return aux
-
+    return print("TODAS AS THREADS NO LIMITE DE TEMPO FORAM RECUPERADAS")
 
 # ---
 import multiprocessing
@@ -154,28 +166,56 @@ if __name__ == "__main__":
     p1 = multiprocessing.Process(target=SearchThreads,
                                  args=(queueObject, "Depression", qtdDias))
 
-    p2 = multiprocessing.Process(
-        target=SearchandStoreCommentsQUEUE, args=(queueObject,))
+    p2 = multiprocessing.Process(target=SearchandStoreCommentsQUEUE, args=(queueObject,))
 
     p1.start()
     p2.start()
-
     p1.join()
     p2.join()
-    queueObject.close
 
-# area de testes
+# # area de testes
 mainUrl = "https://www.reddit.com/r/" + "Depression" + "/new.json"
 pageSource = requests.get(mainUrl, headers={'User-agent': 'smthn'}).json()
 pagingControl = pageSource['data']['after']
 threadList = pageSource['data']['children']
 
-for t in threadList:
-    print(t['data']['num_comments'])
-threadList[0]
+# for t in threadList:
+#     print(t['data']['num_comments'])
+# threadList[0]
 # url = "https://www.reddit.com/r/depression/comments/e51vnb/christmas/"
 # threadResponseJson = requests.get((url + ".json"), headers={'User-agent': 'smthn'})
 # threadResponseJson.content
+with open("Crawlers/RedditCrawler/testRedditThreads.json", "r") as f:
+    dataset = json.load(f)
 
-# x = threadList[0]
-# len(threadList) - threadList.index(x)
+y = dataset[3]
+x = y['data']
+x['num_comments'] > 0
+
+for t in dataset:
+    x = t['data']
+    if x['num_comments'] > 0:
+        threadInstanceURL = (x['url'])
+        print("Obtendo comentarios da thread {}".format(threadInstanceURL))
+        threadResponseJson = requests.get((threadInstanceURL + ".json"), headers={'User-agent': 'smthn'})
+        thread = json.loads(threadResponseJson.content)
+
+        aux = thread
+        aux = json.dumps(aux, indent=3, sort_keys=True)
+        print("Essa thread possui {} comments".format(len(aux)))
+
+        genericDictionary = {'threadURL': threadInstanceURL, 'data': None}
+
+    type(aux)
+
+    with open('Crawlers/RedditCrawler/testRedditComments.json', 'w') as file:
+        file.write('[')
+        file.write('\n')
+        file.write(']')
+
+    with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
+        # genericDictionary['data'] = aux
+        json.dump(genericDictionary, file, indent=3, sort_keys=True)
+        # file.write(',')
+
+json.dump()

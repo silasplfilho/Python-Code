@@ -68,7 +68,7 @@ pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunid
 threadList = []  # Lista que guardara os posts
 dictLayout = dict()
 
-for pageIterator in range(1):
+for pageIterator in range(10):
     # definindo parametros a serem manipulados
     threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
     source = requests.get(threadURL)
@@ -88,14 +88,13 @@ for pageIterator in range(1):
         dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
         threadList.append(dictLayout.copy())
 
+    with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'a') as file:
+        print("Saving the ")
+        json.dump(threadList, file)
+
     timeSleep()
 
 # -----------------------------------
-with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'w') as file:
-    json.dump(threadList, file)
-# -----------------------------------
-
-
 # BUSCANDO COMENTARIOS PARA CADA THREAD
 start_time = time()
 requestsControl = 0
@@ -103,8 +102,8 @@ commentsDictionary = dict()
 commentsList = []
 
 with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as file:
+    
     threadList = json.load(file)
-
 
 for postIterator in threadList:
     # Controle da requisicao
@@ -151,8 +150,10 @@ for postIterator in threadList:
 
     commentsList.extend(postIterator['link'])
 # ------------------------
+
 with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'w') as file:
     json.dump(threadList, file)
+
 # ------------------------
 # TESTES P BAIXO
 # dateexe = 'Posted 10/27/2019 1:43 AM (GMT -7)'

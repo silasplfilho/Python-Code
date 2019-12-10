@@ -1,6 +1,8 @@
 from Crawlers.RedditCrawler import redditThreadsCrawler as rTC
 import multiprocessing
 
+# queueObject.close()
+
 
 if __name__ == "__main__":
     qtdDias = input("Digita a quantidade de dias que serão pesquisados:")
@@ -17,5 +19,3 @@ if __name__ == "__main__":
 
     p1.join()
     p2.join()
-
-queueObject.close()
