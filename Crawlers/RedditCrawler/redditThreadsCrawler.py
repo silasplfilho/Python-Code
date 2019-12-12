@@ -95,7 +95,7 @@ def SearchandStoreCommentsQUEUE(queueObject):
 
 def writeThreadList2Json(threadListObject, name2bsaved):
     print("Salvando {} threads".format(len(threadListObject)))
-    with open('Crawlers/RedditCrawler/test' + name2bsaved + '.json', 'a') as file:
+    with open('Crawlers/RedditCrawler/test' + name2bsaved + '.json', 'a+') as file:
         json.dump(threadListObject, file, indent=3, sort_keys=True)
 
 
@@ -139,11 +139,6 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
 
         if (actualDate - timeControl).days > int(qtdDays):
             controlVariable = False
-        # if i == 0:
-            # controlVariable = False
-        # else:
-            # i = i+1
-            # continue
 
     return print("TODAS AS THREADS NO LIMITE DE TEMPO FORAM RECUPERADAS")
 # ---
