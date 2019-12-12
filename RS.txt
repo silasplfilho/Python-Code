@@ -5,7 +5,7 @@ Anotacoes do Livro sobre revisao Sistematica
 
 	- Informacoes Gerais
 		Titulo: RS sobre Midias e Redes sociais como fonte de identificacao de sintomas de transtornos psicologicos
-		Pesquisadores: Silas
+		Pesquisadores: Silas e Jonice
 		Descricao: "deve conter uma explicacao e justificativa da RS" - A influencia de midias sociais atualmente se dá ao ponto de que pessoas podem usar tais plataformas para se expressarem. Um problema de saude considerado importantissimo a ser analisado é o suicidio. Entender o que leva uma pessoa a cometer tal ato já é foco de estudos no campo médico e psicologico. Por tras dos atos de suicidio podem estar presentes pessoas que passam por problemas psicologicos. Levando isso em consideracao, usar midias sociais como fonte de estudo de comportamento humano para a identificacao de pessoas com disturbios, ou entao com sintomas de disturbios psicologicos.
 		Tal revisao permitiria entender quais abordagens estao sendo tomadas, o que ja foi feito pelo corpo cientifico e tambem o que pode servir como contribuicao cientifica para resolucao de tal problema.
 		Objetivo: Se é possivel identificar sintomas de doencas psicologicas em pessoas que usem midias sociais.
