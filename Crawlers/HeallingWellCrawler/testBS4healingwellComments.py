@@ -3,7 +3,6 @@ import requests
 
 # import urllib.request
 from bs4 import BeautifulSoup
-import re
 
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
@@ -12,6 +11,7 @@ from random import random
 from warnings import warn
 from datetime import datetime
 import json
+import os
 # -------------------------------
 
 
@@ -65,34 +65,8 @@ lastPage = paging.findAll('a')[-1].get('href')
 pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunidade analisada
 
 # criando uma lista, onde cada elemento é um dicionario/thread
-threadList = []  # Lista que guardara os posts
-dictLayout = dict()
-
-for pageIterator in range(10):
-    # definindo parametros a serem manipulados
-    threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
-    source = requests.get(threadURL)
-    soup = BeautifulSoup(source.content)
-    # ---
-    # tentando chegar direto no div que tem a informacao necessaria
-    threadDiv = soup.findAll('div', class_=re.compile("row fugazi forum-list"))
-    threadDiv[0].text.replace('^\n', '')
-    threadDiv[0].find('a', class_='forum-title').get('href')
-
-    # ---
-    for thread in threadDiv:
-        dictLayout['last_date'] = thread.find('div', class_='last-comment-date').text
-        dictLayout['author'] = (thread.p.text).split("By ")[1]
-        dictLayout['title'] = thread.a.text
-        dictLayout['views'] = thread.find('div', class_='views').text
-        dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
-        threadList.append(dictLayout.copy())
-
-    with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'a') as file:
-        print("Saving the ")
-        json.dump(threadList, file)
-
-    timeSleep()
+# threadList = []  # Lista que guardara os posts
+# dictLayout = dict()
 
 # -----------------------------------
 # BUSCANDO COMENTARIOS PARA CADA THREAD
@@ -102,8 +76,10 @@ commentsDictionary = dict()
 commentsList = []
 
 with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as file:
-    
     threadList = json.load(file)
+    del threadList[0]
+
+len(threadList)
 
 for postIterator in threadList:
     # Controle da requisicao
@@ -149,10 +125,16 @@ for postIterator in threadList:
         postIterator['postContent'] = comments
 
     commentsList.extend(postIterator['link'])
-# ------------------------
 
-with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'w') as file:
-    json.dump(threadList, file)
+    with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
+        if os.stat(file.name).st_size <= 3:
+            json.dump(threadList, file, indent=4, sort_keys=True)
+        else:
+            file.write(',')
+            json.dump(threadList, file, indent=4, sort_keys=True)
+        # json.dump(threadList, file, indent=4, sort_keys=True)
+
+
 
 # ------------------------
 # TESTES P BAIXO

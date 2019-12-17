@@ -35,7 +35,7 @@ plt.show()
 # -----------------
 G2 = nx.Graph()
 with open("Crawlers/HeallingWellCrawler/testHealingWellComments.json", 'r') as f:
-    CommentsDataset = json.load(f)
+    CommentsDataset = json.loads(f)
     # CommentsDataset = pd.DataFrame(CommentsDataset)
 
 AuthorsNamesList = []
