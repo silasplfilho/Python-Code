@@ -1,7 +1,10 @@
 import json
 
 with open("Crawlers/RedditCrawler/testRedditComments.json", 'r') as file:
-    dataset = json.load(file)
+    Commentsdataset = json.load(file)
 
 #
-dataset
+len(Commentsdataset)
+x = Commentsdataset[-1]
+len(x)
+x[0]['data']['body']
