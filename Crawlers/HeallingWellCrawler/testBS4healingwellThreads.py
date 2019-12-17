@@ -1,14 +1,11 @@
 # teste com library requests
 import requests
-
 # import urllib.request
 from bs4 import BeautifulSoup
 import re
-
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
 from random import random
-
 # from warnings import warn
 from datetime import datetime
 import json
@@ -30,31 +27,6 @@ def timeSleep():
                                                          requestsControl/elapsed_time))
 
 
-# funcao para buscar comentarios
-def threadCommentSeekerPagination(soupVariable):
-    # autor, timestamp e comentarios do post
-    smthng = soupVariable.findAll(['a', 'div'], class_=['user-name', 'post-body', 'posted'])
-    threadComments = []
-    commentDict = dict()
-
-    for i in range(0, len(smthng), 3):
-        commentDict['commentAuthor'] = smthng[i].text  # Autor do Comentario
-        commentDict['comment'] = str(smthng[i+2].text).strip()  # Texto do Comentario
-        # treating the timestamp string
-        try:
-            commentTimestamp = (smthng[i+1].text).strip("Posted ")
-            timestamp_idx = commentTimestamp.find(" (GMT")
-            commentTimestamp = commentTimestamp[:timestamp_idx]
-            commentTimestamp = datetime.strptime(commentTimestamp, '%m/%d/%Y %I:%M %p')
-            commentDict['commentTimestamp'] = datetime.timestamp(commentTimestamp)  # Data da publicacao
-        except Exception:
-            commentDict['commentTimestamp'] = (smthng[i+1].text).strip("Posted ")
-
-        threadComments.append(commentDict.copy())
-
-    return threadComments
-
-
 # ----
 mainURL = "https://www.healingwell.com/community/default.aspx?f=19"
 source = requests.get(mainURL)
@@ -68,7 +40,8 @@ pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunid
 threadList = []  # Lista que guardara os posts
 dictLayout = dict()
 
-for pageIterator in range(3):  # defini um range de 25 paginas a serem crawleadas
+for pageIterator in range(1, 5):  # define um range de paginas-a ideia seria substituir pela variavel 
+                               # 'pageNumber' q é a qtd total de paginas
     # definindo parametros a serem manipulados
     threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
     source = requests.get(threadURL)
@@ -88,8 +61,8 @@ for pageIterator in range(3):  # defini um range de 25 paginas a serem crawleada
         dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
         threadList.append(dictLayout.copy())
 
+
 with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'a+') as file:
     print("Saving the ")
     json.dump(threadList, file, indent=4, sort_keys=True)
 
-    timeSleep()

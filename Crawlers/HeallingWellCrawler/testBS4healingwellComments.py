@@ -1,13 +1,10 @@
 # teste com library requests
 import requests
-
 # import urllib.request
 from bs4 import BeautifulSoup
-
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
 from random import random
-
 from warnings import warn
 from datetime import datetime
 import json
@@ -79,8 +76,8 @@ with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as fi
     threadList = json.load(file)
     del threadList[0]
 
-len(threadList)
-
+# len(threadList)
+# -----
 for postIterator in threadList:
     # Controle da requisicao
     timeSleep()
