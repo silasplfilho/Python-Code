@@ -1,7 +1,7 @@
 import requests
 import json
 # pacotes para controlar o tempo de requisicao das paginas
-from time import sleep, time
+from time import sleep
 from datetime import date
 from random import random
 import os
@@ -41,18 +41,10 @@ pela requisicao
 
 # FUNCAO QUE FAZ O PROCESSO AGUARDAR UMA QUANTIDADE ALEATORIA DE SEGUNDOS ENTRE 1 E 4.
 def timeSleep():
-    # - variaveis para controle de tempo/sleep
-    start_time = time()
-    requestsControl = 0
-
     # - Tempo de espera para outra requisição
-    requestsControl += 1
-    sleep(random() * 3 + 1)  # - Escolhe um inteiro
-    current_time = time()
-    elapsed_time = current_time - start_time
-
-    print('Request: {}; Frequency: {} requests/s'.format(requestsControl,
-                                                         requestsControl/elapsed_time))
+    valueTimeToSleep = random() * 3 + 1
+    sleep(valueTimeToSleep)  # - Escolhe um inteiro
+    print('Have waited {} seconds for a new request'.format(valueTimeToSleep))
 
 
 # Funcao abaixo é uma tentativa de usar multiprocessing.pipe
@@ -76,7 +68,7 @@ def SearchandStoreCommentsQUEUE(queueObject):
                 print("Essa thread possui {} comments".format(len(aux)))
             else:
                 continue
-        
+
             with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
                 if os.stat(file.name).st_size <= 3:
                     json.dump(aux, file, indent=3, sort_keys=True)
@@ -95,7 +87,7 @@ def SearchandStoreCommentsQUEUE(queueObject):
 
 def writeThreadList2Json(threadListObject, name2bsaved):
     print("Salvando {} threads".format(len(threadListObject)))
-    with open('Crawlers/RedditCrawler/test' + name2bsaved + '.json', 'a+') as file:
+    with open('Crawlers/RedditCrawler/' + name2bsaved + '.json', 'a+') as file:
         json.dump(threadListObject, file, indent=3, sort_keys=True)
 
 
@@ -105,7 +97,7 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
     controlVariable = True
     pagingControl = None
     mainUrl = "https://www.reddit.com/r/" + subRedditName + "/new.json"
-    # i = 0  # variavel de teste - limita a quantidade de vezes que vou executar a funcao - deve sair apos teste
+    # i = 0  # variavel de teste-limita qtd de vezes q vou executar a funcao - deve sair apos teste
 
     print("Buscando threads do subreddit: {}".format(subRedditName))
     while controlVariable is True:
