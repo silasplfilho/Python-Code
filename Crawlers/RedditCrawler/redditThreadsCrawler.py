@@ -5,6 +5,7 @@ from time import sleep
 from datetime import date
 from random import random
 import os
+import jsonlines
 # import multiprocessing
 # pacotes para trabalhar com threads e queues
 # import multiprocessing
@@ -51,7 +52,10 @@ def timeSleep():
 def SearchandStoreCommentsQUEUE(queueObject):
     while True:
         threadsList = queueObject.get()
-
+        if threadsList is None:
+            print("nao há mais thread a serem buscadas os comentarios")
+            queueObject.close()
+            break
         # with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
         #     if os.stat(file.name).st_size <= 2:
         #         file.write('[')
@@ -65,30 +69,38 @@ def SearchandStoreCommentsQUEUE(queueObject):
                                                   headers={'User-agent': 'smthn'})
                 threadResponseJson = json.loads(threadResponseJson.content)
                 aux = threadResponseJson[1]['data']['children']
+                writeThreadList2Json(aux, "threadCommentsList")
                 print("Essa thread possui {} comments".format(len(aux)))
             else:
                 continue
 
-            with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
-                if os.stat(file.name).st_size <= 3:
-                    json.dump(aux, file, indent=3, sort_keys=True)
-                else:
-                    file.write(',')
-                    json.dump(aux, file, indent=3, sort_keys=True)
+        # if queueObject.empty():
+        #     print("nao há mais thread a serem buscadas os comentarios")
+        #     queueObject.close()
+        #     break
 
-        # with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
-        #     file.write(']')
-
-        if queueObject.empty():
-            print("nao há mais thread a serem buscadas os comentarios")
-            queueObject.close()
-            break
+            # with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+') as file:
+            #     if os.stat(file.name).st_size <= 3:
+            #         json.dump(aux, file, indent=3, sort_keys=True)
+            #     else:
+            #         file.write(',')
+            #         json.dump(aux, file, indent=3, sort_keys=True)
+            
+            # with jsonlines.open('Crawlers/RedditCrawler/testRedditComments.jsonl', mode='a') as file:
+            #     file.write(aux)
+                # if os.stat(file.name).st_size <= 3:
+                #     json.dump(aux, file, indent=3, sort_keys=True)
+                # else:
+                #     file.write(',')
+                #     json.dump(aux, file, indent=3, sort_keys=True)
 
 
 def writeThreadList2Json(threadListObject, name2bsaved):
-    print("Salvando {} threads".format(len(threadListObject)))
-    with open('Crawlers/RedditCrawler/' + name2bsaved + '.json', 'a+') as file:
-        json.dump(threadListObject, file, indent=3, sort_keys=True)
+    # print("Escrevendo dados da variavel {}.".format((threadListObject)))
+    # with open('Crawlers/RedditCrawler/' + name2bsaved + '.json', 'a+') as file:
+    #     json.dump(threadListObject, file, indent=3, sort_keys=True)
+    with jsonlines.open('Crawlers/RedditCrawler/' + name2bsaved + '.jsonl', mode='a') as file:
+        file.write(threadListObject)
 
 
 # FUNCAO PARA BUSCA DE CONTINUA DE THREADS NUM DETERMINADO SUBREDDIT
@@ -112,7 +124,7 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
 
         # - valor para controlar a continuacao de threads no scroll down
         pagingControl = pageSource['data']['after']
-        # - lista de threads na primeira paginacao
+        # - lista de threads da paginacao
         threadList = pageSource['data']['children']
 
         # Gravando a lista de threads/posts num arquivo .json
@@ -132,5 +144,14 @@ def SearchThreads(queueObject, subRedditName, qtdDays):
         if (actualDate - timeControl).days > int(qtdDays):
             controlVariable = False
 
+    queueObject.put(None)  # adding a poison pill to signalize the process has finished
     return print("TODAS AS THREADS NO LIMITE DE TEMPO FORAM RECUPERADAS")
+    
 # ---
+#  with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
+#         if os.stat(file.name).st_size <= 3:
+#             file.write('[')
+#             json.dump(postIterator, file, indent=4, sort_keys=True)
+#         else:
+#             file.write(',')
+#             json.dump(postIterator, file, indent=4, sort_keys=True)

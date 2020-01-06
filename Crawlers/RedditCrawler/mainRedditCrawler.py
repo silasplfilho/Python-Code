@@ -14,8 +14,8 @@ if __name__ == "__main__":
 
     p2 = multiprocessing.Process(target=rTC.SearchandStoreCommentsQUEUE, args=(queueObject,))
 
-    with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
-        file.write('[')
+    # with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
+    #     file.write('[')
 
     p1.start()
     p2.start()
@@ -23,5 +23,5 @@ if __name__ == "__main__":
     p1.join()
     p2.join()
 
-    with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
-        file.write(']')
+    # with open('Crawlers/RedditCrawler/testRedditComments.json', 'a+', encoding='utf-8') as file:
+    #     file.write(']')
