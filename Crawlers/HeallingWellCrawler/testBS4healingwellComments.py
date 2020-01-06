@@ -70,6 +70,7 @@ with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as fi
 
 tamanhoListaPosts = len(threadList)
 # -----
+testIterator = 0
 for postIterator in threadList:
     # Controle da requisicao
     timeSleep()
@@ -114,6 +115,7 @@ for postIterator in threadList:
 
     with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
         if os.stat(file.name).st_size <= 3:
+            file.write('[')
             json.dump(postIterator, file, indent=4, sort_keys=True)
         else:
             file.write(',')
@@ -121,3 +123,10 @@ for postIterator in threadList:
 
     tamanhoListaPosts = tamanhoListaPosts - 1
     print(tamanhoListaPosts)
+
+    testIterator = testIterator + 1
+    if testIterator == 5:
+        break
+
+with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
+    file.write(']')

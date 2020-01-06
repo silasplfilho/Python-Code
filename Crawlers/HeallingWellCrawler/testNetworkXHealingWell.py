@@ -35,7 +35,7 @@ plt.show()
 # -----------------
 G2 = nx.Graph()
 with open("Crawlers/HeallingWellCrawler/testHealingWellComments.json", 'r') as f:
-    CommentsDataset = json.loads(f)
+    CommentsDataset = json.load(f)
     # CommentsDataset = pd.DataFrame(CommentsDataset)
 
 AuthorsNamesList = []
@@ -47,7 +47,6 @@ for thread in CommentsDataset:
     AuthorsNamesList.append(listAuxiliar)
 
 a = itertools.combinations(AuthorsNamesList[0], 2)
-a
 
 for elem in AuthorsNamesList:
     auxList = itertools.combinations(elem, 2)
@@ -57,7 +56,13 @@ pos = nx.spring_layout(G2)
 nx.draw(G2, pos, with_labels=False)
 for p in pos:  # raise text positions
     pos[p][1] += 0.07
-nx.draw_networkx_labels(G2, pos, font_color='r', font_size=7, font_weight='bold')
+
+nx.draw_networkx_labels(G2, pos, node_size=100,
+                                 font_color='r',
+                                 font_size=7,
+                                 font_weight='bold')
+                                 
+# nx.draw(G2, node_color='orange', node_size=100, edge_color='black', linewidths=1, font_size=15)
 plt.show()
 
 # -------------------
