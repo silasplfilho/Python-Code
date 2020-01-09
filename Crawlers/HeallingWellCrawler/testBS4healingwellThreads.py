@@ -1,14 +1,12 @@
-# teste com library requests
 import requests
-# import urllib.request
 from bs4 import BeautifulSoup
 import re
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
 from random import random
-# from warnings import warn
 from datetime import datetime
 import json
+import jsonlines
 # -------------------------------
 
 
@@ -30,7 +28,7 @@ def timeSleep():
 # ----
 mainURL = "https://www.healingwell.com/community/default.aspx?f=19"
 source = requests.get(mainURL)
-soup = BeautifulSoup(source.content)
+soup = BeautifulSoup(source.content, features="html.parser")
 
 paging = soup.find("div", class_='page-listing-bottom')
 lastPage = paging.findAll('a')[-1].get('href')
@@ -40,12 +38,12 @@ pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunid
 threadList = []  # Lista que guardara os posts
 dictLayout = dict()
 
-for pageIterator in range(1, 5):  # define um range de paginas-a ideia seria substituir pela variavel 
+for pageIterator in range(1, int(pageNumber/5)):  # define um range de paginas-a ideia seria substituir pela variavel 
                                # 'pageNumber' q é a qtd total de paginas
     # definindo parametros a serem manipulados
     threadURL = "https://www.healingwell.com/community/default.aspx?f=19&p={}".format(pageIterator)
     source = requests.get(threadURL)
-    soup = BeautifulSoup(source.content)
+    soup = BeautifulSoup(source.content, features="html.parser")
     # ---
     # tentando chegar direto no div que tem a informacao necessaria
     threadDiv = soup.findAll('div', class_=re.compile("row fugazi forum-list"))
@@ -61,8 +59,14 @@ for pageIterator in range(1, 5):  # define um range de paginas-a ideia seria sub
         dictLayout['link'] = thread.find('a', class_='forum-title').get('href')
         threadList.append(dictLayout.copy())
 
+        print("Writing the thread {} as a jsonline".format(threadList[-1]['link']))
+        with jsonlines.open('HealingWellThreads.jsonl', mode='a') as file:
+            file.write([threadList[-1]])
+    
+    print(pageIterator)
 
-with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'a+') as file:
-    print("Saving the ")
-    json.dump(threadList, file, indent=4, sort_keys=True)
+
+# with open('HealingWellThreads2.json', 'a+') as file:
+#     print("Saving the ")
+#     json.dump(threadList, file, indent=4, sort_keys=True)
 

@@ -1,6 +1,5 @@
 # teste com library requests
 import requests
-# import urllib.request
 from bs4 import BeautifulSoup
 # pacotes para controlar o tempo de requisicao das paginas
 from time import sleep, time
@@ -8,6 +7,7 @@ from random import random
 # from warnings import warn
 from datetime import datetime
 import json
+import jsonlines
 import os
 # -------------------------------
 
@@ -47,14 +47,14 @@ def threadCommentSeekerPagination(soupVariable):
 # ----
 mainURL = "https://www.healingwell.com/community/default.aspx?f=19"
 source = requests.get(mainURL)
-soup = BeautifulSoup(source.content)
+soup = BeautifulSoup(source.content, features="html.parser")
 
 paging = soup.find("div", class_='page-listing-bottom')
 lastPage = paging.findAll('a')[-1].get('href')
 pageNumber = int(lastPage.split('p=')[-1])  # numero da ultima pagina da comunidade analisada
 
 # criando uma lista, onde cada elemento é um dicionario/thread
-# threadList = []  # Lista que guardara os posts
+threadList = []  # Lista que guardara os posts
 # dictLayout = dict()
 
 # -----------------------------------
@@ -64,10 +64,14 @@ requestsControl = 0
 commentsDictionary = dict()
 commentsList = []
 
-with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as file:
-    threadList = json.load(file)
-    del threadList[0]
-
+# with open('Crawlers/HeallingWellCrawler/HealingWellThreads.json', 'r') as file:
+with jsonlines.open('HealingWellThreads.jsonl', mode='r') as file:
+    for obj in file:
+        threadList.extend(obj)
+        # threadList = json.load(file)
+    # del threadList[0]
+threadList[0]
+type(threadList)
 tamanhoListaPosts = len(threadList)
 # -----
 testIterator = 0
@@ -78,7 +82,7 @@ for postIterator in threadList:
     # Trecho que faz a requisicao com requests
     postLink = "https://www.healingwell.com" + postIterator['link']  # link de um post da lista
     source = requests.get(postLink)
-    soup = BeautifulSoup(source.content)
+    soup = BeautifulSoup(source.content, features="html.parser")
 
     # if source.status_code != 200:
     #     warn('request: {}; Status code: {}'.format(requestsControl, source.status_code))
@@ -97,7 +101,7 @@ for postIterator in threadList:
             postPageLink = "https://www.healingwell.com" + postIterator['link']\
                 + '&p={}'.format(threadPage)
             source = requests.get(postPageLink)
-            soup = BeautifulSoup(source.content)
+            soup = BeautifulSoup(source.content, features="html.parser")
             # ---
             print("""Getting information from post: {};
                     The status code was; {} \n""".format(postPageLink, source.status_code))
@@ -113,20 +117,21 @@ for postIterator in threadList:
 
     # commentsList.extend(postIterator['link'])
 
-    with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
-        if os.stat(file.name).st_size <= 3:
-            file.write('[')
-            json.dump(postIterator, file, indent=4, sort_keys=True)
-        else:
-            file.write(',')
-            json.dump(postIterator, file, indent=4, sort_keys=True)
+    # with open('Crawlers/HeallingWellCrawler/HealingWellComments.json', 'a+') as file:
+    # with open('HealingWellComments.json', 'a+') as file:
+    #     if os.stat(file.name).st_size <= 3:
+    #         file.write('[')
+    #         json.dump(postIterator, file, indent=4, sort_keys=True)
+    #     else:
+    #         file.write(',')
+    #         json.dump(postIterator, file, indent=4, sort_keys=True)
 
+    with jsonlines.open('HealingWellComments.jsonl', mode='a') as file:
+        file.write([postIterator])
+    
     tamanhoListaPosts = tamanhoListaPosts - 1
     print(tamanhoListaPosts)
 
-    testIterator = testIterator + 1
-    if testIterator == 5:
-        break
-
-with open('Crawlers/HeallingWellCrawler/testHealingWellComments.json', 'a+') as file:
-    file.write(']')
+# with open('Crawlers/HeallingWellCrawler/HealingWellComments.json', 'a+') as file:
+# with open('HealingWellComments.json', 'a+') as file:
+#     file.write(']')
