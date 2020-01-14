@@ -3,39 +3,43 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
+import jsonlines
 # -----------------
-with open("Crawlers/HeallingWellCrawler/testHealingWellThreads.json", 'r') as f:
-    dataset = json.load(f)
-    dataset = pd.DataFrame(dataset)
+# with open("Crawlers/HeallingWellCrawler/testHealingWellThreads.json", 'r') as f:
+#     dataset = json.load(f)
+#     dataset = pd.DataFrame(dataset)
 
-listOfUsers = list(dataset['author'].unique())
+# listOfUsers = list(dataset['author'].unique())
 
-# criando grafo e nós
-G = nx.Graph()
-G.add_nodes_from(listOfUsers, type='user')
+# # criando grafo e nós
+# G = nx.Graph()
+# G.add_nodes_from(listOfUsers, type='user')
 
-for index, item in dataset.iterrows():
-    qtdViews = item['views'].strip(' views')
-    itemId = item['link'].strip("/community/default.aspx?f=19&m=")
-    # print(itemId, qtdViews)
-    G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')
+# for index, item in dataset.iterrows():
+#     qtdViews = item['views'].strip(' views')
+#     itemId = item['link'].strip("/community/default.aspx?f=19&m=")
+#     # print(itemId, qtdViews)
+#     G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')
 
-# -----------------
-links = list(dataset['link'].str.strip("/community/default.aspx?f=19&m="))
-authors = list(dataset.loc[:, 'author'])
-edgesList = list(zip(authors, links))
+# # -----------------
+# links = list(dataset['link'].str.strip("/community/default.aspx?f=19&m="))
+# authors = list(dataset.loc[:, 'author'])
+# edgesList = list(zip(authors, links))
 
-G.add_edges_from(edgesList)
+# G.add_edges_from(edgesList)
 
-color_map = {'user': 'b', 'post': 'r'}
-nx.draw(G, with_labels=True, node_color=[color_map[G.nodes[node]['type']] for node in G])
-plt.show()
+# color_map = {'user': 'b', 'post': 'r'}
+# nx.draw(G, with_labels=True, node_color=[color_map[G.nodes[node]['type']] for node in G])
+# plt.show()
 # -----------------
 # SEGUNDO EXEMPLO DE MODELAGEM
 # -----------------
 G2 = nx.Graph()
-with open("Crawlers/HeallingWellCrawler/testHealingWellComments.json", 'r') as f:
-    CommentsDataset = json.load(f)
+commentsList = []
+with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellComments.jsonl", mode='r') as f:
+    for i in f:
+        commentsList.extend(i)
+    # CommentsDataset = json.load(f)
     # CommentsDataset = pd.DataFrame(CommentsDataset)
 
 AuthorsNamesList = []

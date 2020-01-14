@@ -31,16 +31,14 @@ def threadCommentSeekerPagination(soupVariable):
         commentDict['comment'] = str(smthng[i+2].text).strip()  # Texto do Comentario
         # treating the timestamp string
         try:
-            commentTimestamp = (smthng[i+1].text).strip("Posted ")
+            commentTimestamp = (smthng[i+1].text).strip("Posted")
             timestamp_idx = commentTimestamp.find(" (GMT")
             commentTimestamp = commentTimestamp[:timestamp_idx]
             commentTimestamp = datetime.strptime(commentTimestamp, '%m/%d/%Y %I:%M %p')
             commentDict['commentTimestamp'] = datetime.timestamp(commentTimestamp)  # Data Publicac
         except Exception:
             commentDict['commentTimestamp'] = (smthng[i+1].text).strip("Posted ")
-
         threadComments.append(commentDict.copy())
-
     return threadComments
 
 
