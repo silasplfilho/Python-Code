@@ -1,7 +1,17 @@
 import json
+import jsonlines
 
-with open('Crawlers/HeallingWellCrawler/testHealingWellThreads.json', 'r') as file:
-    threadList = json.load(file)
+threadList = []
+commentList = []
 
-len(threadList)
-threadList[-1]
+with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl', mode='r') as file:
+    for iter in file:
+        threadList.extend(iter)
+
+
+with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellComments_labCores.jsonl', mode='r') as file:
+    for iter in file:
+        commentList.extend(iter)
+
+threadList[0]
+commentList[0]

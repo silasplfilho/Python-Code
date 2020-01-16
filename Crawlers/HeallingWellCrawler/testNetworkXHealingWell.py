@@ -5,9 +5,12 @@ import matplotlib.pyplot as plt
 import itertools
 import jsonlines
 # -----------------
-# with open("Crawlers/HeallingWellCrawler/testHealingWellThreads.json", 'r') as f:
-#     dataset = json.load(f)
-#     dataset = pd.DataFrame(dataset)
+threadList=[]
+with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl", mode='r') as f:
+    for i in f:
+        threadList.extend(i)
+    # dataset = json.load(f)
+    # dataset = pd.DataFrame(dataset)
 
 # listOfUsers = list(dataset['author'].unique())
 
@@ -34,42 +37,43 @@ import jsonlines
 # -----------------
 # SEGUNDO EXEMPLO DE MODELAGEM
 # -----------------
-G2 = nx.Graph()
-commentsList = []
-with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellComments.jsonl", mode='r') as f:
-    for i in f:
-        commentsList.extend(i)
-    # CommentsDataset = json.load(f)
-    # CommentsDataset = pd.DataFrame(CommentsDataset)
+# G2 = nx.Graph()
+# commentsList = []
+# with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellComments_labCores.jsonl", mode='r') as f:
+#     for i in f:
+#         commentsList.extend(i)
 
-AuthorsNamesList = []
+# CommentsDataset = pd.DataFrame(commentsList)
 
-for thread in CommentsDataset:
-    listAuxiliar = [x['commentAuthor'] for x in thread['postContent']]  # list comprehension
-    # AuthorsNamesList.remove(-1)
-    # del listAuxiliar[0]
-    AuthorsNamesList.append(listAuxiliar)
+# AuthorsNamesList = []
+# commen
 
-a = itertools.combinations(AuthorsNamesList[0], 2)
+# for thread in range(len(CommentsDataset)):
+#     listAuxiliar = [x['author'] for x in CommentsDataset.]  # list comprehension
+#     # AuthorsNamesList.remove(-1)
+#     # del listAuxiliar[0]
+#     AuthorsNamesList.append(listAuxiliar)
 
-for elem in AuthorsNamesList:
-    auxList = itertools.combinations(elem, 2)
-    G2.add_edges_from(auxList)
+# a = itertools.combinations(AuthorsNamesList[0], 2)
 
-pos = nx.spring_layout(G2)
-nx.draw(G2, pos, with_labels=False)
-for p in pos:  # raise text positions
-    pos[p][1] += 0.07
+# for elem in AuthorsNamesList:
+#     auxList = itertools.combinations(elem, 2)
+#     G2.add_edges_from(auxList)
 
-nx.draw_networkx_labels(G2, pos, node_size=100,
-                                 font_color='r',
-                                 font_size=7,
-                                 font_weight='bold')
+# pos = nx.spring_layout(G2)
+# nx.draw(G2, pos, with_labels=False)
+# for p in pos:  # raise text positions
+#     pos[p][1] += 0.07
+
+# nx.draw_networkx_labels(G2, pos, node_size=100,
+#                                  font_color='r',
+#                                  font_size=7,
+#                                  font_weight='bold')
                                  
-# nx.draw(G2, node_color='orange', node_size=100, edge_color='black', linewidths=1, font_size=15)
-plt.show()
+# # nx.draw(G2, node_color='orange', node_size=100, edge_color='black', linewidths=1, font_size=15)
+# plt.show()
 
-# -------------------
-nx.degree_centrality(G2)
-nx.closeness_centrality(G2)
-nx.betweenness_centrality(G2)
+# # -------------------
+# nx.degree_centrality(G2)
+# nx.closeness_centrality(G2)
+# nx.betweenness_centrality(G2)
