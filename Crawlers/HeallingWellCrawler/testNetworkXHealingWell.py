@@ -1,18 +1,22 @@
 import networkx as nx
+import graph_tool as gt
+
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 import jsonlines
 # -----------------
+# PRIMEIRO EXEMPLO DE MODELAGEM
+# -----------------
 threadList=[]
-with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl", mode='r') as f:
-    for i in f:
-        threadList.extend(i)
+with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl', mode='r') as file:
+    for iter in file:
+        threadList.extend(iter)
     # dataset = json.load(threadList)
+
 dataset = pd.DataFrame(threadList)
 dataset.columns
-# dataset.head()
 listOfUsers = list(dataset['author'].unique())
 
 # # criando grafo e nós
@@ -25,41 +29,40 @@ for index, item in dataset.iterrows():
     # print(itemId, qtdViews)
     G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')
 
-# # -----------------
 links = list(dataset['link'].str.strip("/community/default.aspx?f=19&m="))
 authors = list(dataset.loc[:, 'author'])
 edgesList = list(zip(authors, links))
 
 G.add_edges_from(edgesList)
+degrees = [val for (node, val) in G.degree()]
 
 color_map = {'user': 'b', 'post': 'r'}
-nx.draw_networkx(G, with_labels=False, node_size=2, node_color=[color_map[G.nodes[node]['type']] for node in G])
+nx.draw_networkx(G, with_labels=False,
+                    node_size=degrees,
+                    node_color=[color_map[G.nodes[node]['type']] for node in G])
 plt.show()
 
-# Exsportando para dot - formato do graphviz
-nx.drawing.nx_pydot.write_dot(G, "Crawlers/HeallingWellCrawler/graphModel1.gv")
-from graphviz import render, Graph
-gG = Graph('Crawlers/HeallingWellCrawler/graphModel1.dot')
-gG.view()
 # -----------------
 # SEGUNDO EXEMPLO DE MODELAGEM
 # -----------------
-# G2 = nx.Graph()
-# commentsList = []
+G2 = nx.Graph()
+commentsList = []
 # with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellComments_labCores.jsonl", mode='r') as f:
 #     for i in f:
 #         commentsList.extend(i)
 
-# CommentsDataset = pd.DataFrame(commentsList)
+with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellComments_labCores.jsonl', mode='r') as file:
+    for iter in file:
+        commentsList.extend(iter)
 
-# AuthorsNamesList = []
-# commen
+CommentsDataset = pd.DataFrame(commentsList)
+AuthorsNamesList = []
 
-# for thread in range(len(CommentsDataset)):
-#     listAuxiliar = [x['author'] for x in CommentsDataset.]  # list comprehension
-#     # AuthorsNamesList.remove(-1)
-#     # del listAuxiliar[0]
-#     AuthorsNamesList.append(listAuxiliar)
+for thread in range(len(CommentsDataset)):
+    listAuxiliar = [x['author'] for x in CommentsDataset['postContent']]  # list comprehension
+    AuthorsNamesList.remove(-1)
+    del listAuxiliar[0]
+    AuthorsNamesList.append(listAuxiliar)
 
 # a = itertools.combinations(AuthorsNamesList[0], 2)
 

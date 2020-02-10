@@ -4,6 +4,7 @@ import jsonlines
 threadList = []
 commentList = []
 
+# --- Getting the list of forum posts
 with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl', mode='r') as file:
     for iter in file:
         threadList.extend(iter)
@@ -13,5 +14,9 @@ with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellComments_labCores.j
     for iter in file:
         commentList.extend(iter)
 
-threadList[0]
-commentList[0]
+# ---
+sumComments = 0
+for i in commentList:
+    sumComments = sumComments + len(i)
+
+len(threadList)
