@@ -1,6 +1,5 @@
 import networkx as nx
 # import graph_tool as gt
-
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -18,7 +17,7 @@ with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl', mod
 dataset = pd.DataFrame(threadList)
 dataset.columns
 listOfUsers = list(dataset['author'].unique())
-
+# -----------------
 # # criando grafo e nós
 G = nx.Graph()
 G.add_nodes_from(listOfUsers, type='user')
@@ -58,11 +57,16 @@ with jsonlines.open('Crawlers/HeallingWellCrawler/HealingWellComments_labCores.j
 CommentsDataset = pd.DataFrame(commentsList)
 AuthorsNamesList = []
 
-for thread in range(len(CommentsDataset)):
-    listAuxiliar = [x['author'] for x in CommentsDataset['postContent']]  # list comprehension
-    AuthorsNamesList.remove(-1)
-    del listAuxiliar[0]
-    AuthorsNamesList.append(listAuxiliar)
+thread
+CommentsDataset.loc[0, 'postContent']
+
+
+for iterator in range(len(CommentsDataset)):
+    CommentsDataset.loc[iterator, 'postContent']
+
+    # AuthorsNamesList.remove(-1)
+    # del listAuxiliar[0]
+    # AuthorsNamesList.append(listAuxiliar)
 
 # a = itertools.combinations(AuthorsNamesList[0], 2)
 
