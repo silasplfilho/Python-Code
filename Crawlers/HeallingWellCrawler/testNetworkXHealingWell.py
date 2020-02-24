@@ -73,12 +73,18 @@ nx.draw(G2, pos, with_labels=False)
 for p in pos:  # raise text positions
     pos[p][1] += 0.07
 
-nx.draw_networkx_labels(G2, pos, node_size=100,
+nx.draw_networkx_labels(G2, pos, node_size=2,
                                  font_color='r',
                                  font_size=7,
                                  font_weight='bold')
-                                 
-nx.draw(G2, node_color='orange', node_size=100, edge_color='black', linewidths=1, font_size=15)
+
+nx.draw_networkx(G2, 
+                 node_color='orange',
+                 node_size=2,
+                 edge_color='black',
+                 linewidths=0.5,
+                 font_size=2,
+                 with_labels=False)
 plt.show()
 
 # -------------------
