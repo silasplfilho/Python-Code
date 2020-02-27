@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 import jsonlines
+
+import pandas as pd
 # -----------------
 threadList=[]
 with jsonlines.open("Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl", mode='r') as f:
@@ -68,15 +70,16 @@ for elem in AuthorsNamesList:
     auxList = itertools.combinations(elem, 2)
     G2.add_edges_from(auxList)
 
-pos = nx.spring_layout(G2)
-nx.draw(G2, pos, with_labels=False)
-for p in pos:  # raise text positions
-    pos[p][1] += 0.07
+# - setting the graph layout
+# pos = nx.spring_layout(G2)
+# nx.draw(G2, pos, with_labels=False)
+# for p in pos:  # raise text positions
+#     pos[p][1] += 0.07
 
-nx.draw_networkx_labels(G2, pos, node_size=2,
-                                 font_color='r',
-                                 font_size=7,
-                                 font_weight='bold')
+# nx.draw_networkx_labels(G2, pos, node_size=2,
+#                                  font_color='r',
+#                                  font_size=7,
+#                                  font_weight='bold')
 
 nx.draw_networkx(G2, 
                  node_color='orange',
@@ -87,10 +90,25 @@ nx.draw_networkx(G2,
                  with_labels=False)
 plt.show()
 
-# -------------------
-degreeList = nx.degree_centrality(G)
-closeList = nx.closeness_centrality(G)
-betweenList = nx.betweenness_centrality(G2)
+# -----
+degreeList = pd.DataFrame.from_dict(nx.degree_centrality(G2), orient='index', columns=[
+                                    'value']).sort_values(by=['value'], ascending=False)
+closeList = pd.DataFrame.from_dict(nx.closeness_centrality(
+    G2), orient='index', columns=['value']).sort_values(by=['value'], ascending=False)
+betweenList = pd.DataFrame.from_dict(nx.betweenness_centrality(
+    G2), orient='index', columns=['value']).sort_values(by=['value'], ascending=False)
+# -
+d = {'Degree': degreeList.head().value.reset_index()['value'],
+     'Closeness': closeList.head().value.reset_index()['value'],
+     'Betweeness': betweenList.head().value.reset_index()['value']}
 
-help(nx
-)
+resultsDF = pd.DataFrame.from_dict(d, orient='columns')
+# -
+pd.options.display.float_format = '{:.2E}'.format
+
+d2 = {'Degree': degreeList.tail().value.reset_index()['value'],
+      'Closeness': closeList.tail().value.reset_index()['value'],
+      'Betweeness': betweenList.tail().value.reset_index()['value']}
+
+resultsDF = pd.DataFrame.from_dict(d2, orient='columns')
+print(resultsDF.to_latex())
