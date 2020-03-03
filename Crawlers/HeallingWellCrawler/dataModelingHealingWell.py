@@ -6,63 +6,58 @@ import itertools
 import jsonlines
 # import pandas as pd
 # -----------------
-threadList=[]
-with jsonlines.open("/home/silas/Documents/Silas_Personal_Files/Python-Codes/Crawlers/HeallingWellCrawler/HealingWellThreads.jsonl", mode='r') as f:
+'''
+Esse modelo de grafo possui 2 tipos de nós, usuarios e posts. Eles sao ligados por relacionamentos
+de tipos, criacao e interacao.
+'''
+# LOADING THE DATASET
+commentsList = []
+with jsonlines.open("/home/silas/Documents/Silas_Personal_Files/Python-Codes/Crawlers/\
+HeallingWellCrawler/HealingWellComments_labCores.jsonl", mode='r') as f:
     for i in f:
-        threadList.extend(i)
-    # dataset = json.load(threadList)
-dataset = pd.DataFrame(threadList)
-dataset.columns
-# dataset.head()
-listOfUsers = list(dataset['author'].unique())
+        commentsList.extend(i)
+CommentsDataset = pd.DataFrame(commentsList)
+G = nx.Graph()  # criacao de um objeto q é um grafo
+# -----
+# ADICIONANDO NÓS DO TIPO USUARIO E POST
+AuthorsNamesList = []
+for thread in range(len(CommentsDataset)):
+    listAuxiliar = [x['commentAuthor']
+                    for x in CommentsDataset.loc[thread, "postContent"]]  # list comprehension
+    # AuthorsNamesList.remove(-1)
 
-# # criando grafo e nós
-G = nx.Graph()
-G.add_nodes_from(listOfUsers, type='user')
+    AuthorsNamesList.append(listAuxiliar)
 
-for index, item in dataset.iterrows():
+for index, item in CommentsDataset.iterrows():
     qtdViews = item['views'].strip(' views')
-    itemId = item['link'].strip("/community/default.aspx?f=19&m=")
+    itemId = item['link'].strip("/community/default.aspx?f=19&m=")  # o codigo do post sera o label do nó
     # print(itemId, qtdViews)
-    G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')
+    G.add_nodes_from([itemId], title=item['title'], views=qtdViews, type='post')  # ADD NÓS DO TIPO POST
+    G.add_edges_from([(itemId, item['author'])], type='hasAuthored', color='purple')  # ADD ARESTAS DO TIPO AUTORIA
 
-# # -----------------
-links = list(dataset['link'].str.strip("/community/default.aspx?f=19&m="))
-authors = list(dataset.loc[:, 'author'])
-edgesList = list(zip(authors, links))
+    # ADICIONANDO ARESTAS DO TIPO INTERAGE
+    listAuxiliar = [x['commentAuthor'] for x in item["postContent"]]  # list of all users who interacts within post/item
+    author = item['author']
+    listParticipants = list(set(listAuxiliar) - set([author]))  # set of users except the author
+    G.add_nodes_from(listAuxiliar, type='user')
+    edgeCombinations = itertools.product([itemId], listParticipants, repeat=1)
+    G.add_edges_from(edgeCombinations, type='Interacts', color='green')  # ADD ARESTAS DO TIPO INTERAGE
+# -----
+G.nodes.data()
 
-G.add_edges_from(edgesList)
+node_color = {'user': 'blue', 'post': 'red'}
+edge_color = ['purple', 'green']
 
-color_map = {'user': 'b', 'post': 'r'}
-nx.draw_networkx(G, with_labels=False, node_size=2, node_color=[color_map[G.nodes[node]['type']] for node in G])
+nx.draw(G,
+        font_size=5,
+        node_size=10,
+        node_color=edge_color,
+        edge_color=edge_color)#,
+        # edge_alpha=.5)
 plt.show()
-
 # -----------------
 # SEGUNDO EXEMPLO DE MODELAGEM
 # -----------------
-G2 = nx.Graph()
-commentsList = []
-with jsonlines.open("/home/silas/Documents/Silas_Personal_Files/Python-Codes/Crawlers/HeallingWellCrawler/HealingWellComments_labCores.jsonl", mode='r') as f:
-    for i in f:
-        commentsList.extend(i)
-
-CommentsDataset = pd.DataFrame(commentsList)
-AuthorsNamesList = []
-
-# CommentsDataset.iloc[0,]
-
-for thread in range(len(CommentsDataset)):
-    listAuxiliar = [x['commentAuthor'] for x in CommentsDataset.loc[thread, "postContent"]]  # list comprehension
-    # AuthorsNamesList.remove(-1)
-    # del listAuxiliar[0]
-    AuthorsNamesList.append(listAuxiliar)
-
-a = itertools.combinations(AuthorsNamesList[0], 2)
-
-for elem in AuthorsNamesList:
-    auxList = itertools.combinations(elem, 2)
-    G2.add_edges_from(auxList)
-
 A = nx.nx_agraph.to_agraph(G2)
 A.write('HWgraph.dot')
 nx.drawing.nx_agraph.write_dot(G2, 'HWgraphexample.dot')
