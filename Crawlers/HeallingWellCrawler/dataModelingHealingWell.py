@@ -44,23 +44,28 @@ for index, item in CommentsDataset.iterrows():
     G.add_edges_from(edgeCombinations, type='Interacts', color='green')  # ADD ARESTAS DO TIPO INTERAGE
 # -----
 G.nodes.data()
-
 node_color = {'user': 'blue', 'post': 'red'}
-edge_color = ['purple', 'green']
+edge_color = {'hasAuthored': 'purple', 'Interacts': 'green'}
+# -----
+l = [v for v in list(G.nodes()) if G.nodes[v]['type'] == 'user']
+l2 = [v for v in list(G.nodes()) if G.nodes[v]['type'] == 'post']
 
-nx.draw(G,
-        font_size=5,
-        node_size=10,
-        node_color=edge_color,
-        edge_color=edge_color)#,
-        # edge_alpha=.5)
+l3 = [v for v in list(G.edges()) if G.edges[v]['type'] == 'hasAuthored']
+l4 = [v for v in list(G.edges()) if G.edges[v]['type'] == 'Interacts']
+
+pos = nx.spring_layout(G)
+nx.draw_networkx_nodes(G, pos, nodelist=l, node_color='r', node_size=3)
+nx.draw_networkx_nodes(G, pos, nodelist=l2, node_color='b', node_size=7)
+nx.draw_networkx_edges(G, pos, edgelist=l3, edge_color='purple', alpha='.85')
+nx.draw_networkx_edges(G, pos, edgelist=l4, edge_color='green')
+
 plt.show()
 # -----------------
 # SEGUNDO EXEMPLO DE MODELAGEM
 # -----------------
-A = nx.nx_agraph.to_agraph(G2)
+A = nx.nx_agraph.to_agraph(G)
 A.write('HWgraph.dot')
-nx.drawing.nx_agraph.write_dot(G2, 'HWgraphexample.dot')
+nx.drawing.nx_agraph.write_dot(G, 'HWgraphexample.dot')
 # -----
 # - setting the graph layout
 # pos = nx.spring_layout(G2)
@@ -73,12 +78,12 @@ nx.drawing.nx_agraph.write_dot(G2, 'HWgraphexample.dot')
 #                                  font_size=7,
 #                                  font_weight='bold')
 
-nx.draw_kamada_kawai(G2, 
-                #  node_color='orange',
-                    node_size=2,
-                #  edge_color='black',
-                #  font_size=2,
-                 with_labels=False)
-plt.show()
-plt.savefig("HWpgrah.eps")
+# nx.draw_kamada_kawai(G2, 
+#                 #  node_color='orange',
+#                     node_size=2,
+#                 #  edge_color='black',
+#                 #  font_size=2,
+#                  with_labels=False)
+# plt.show()
+# plt.savefig("HWpgrah.eps")
 # -----
