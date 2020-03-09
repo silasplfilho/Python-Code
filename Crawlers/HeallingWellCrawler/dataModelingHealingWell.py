@@ -1,10 +1,8 @@
 import networkx as nx
-# import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 import jsonlines
-# import pandas as pd
 # -----------------
 '''
 Esse modelo de grafo possui 2 tipos de nós, usuarios e posts. Eles sao ligados por relacionamentos
@@ -20,13 +18,14 @@ CommentsDataset = pd.DataFrame(commentsList)
 G = nx.Graph()  # criacao de um objeto q é um grafo
 # -----
 # ADICIONANDO NÓS DO TIPO USUARIO E POST
-AuthorsNamesList = []
+AuthorsNamesList = set()
+AuthorsNamesList2 = []
 for thread in range(len(CommentsDataset)):
     listAuxiliar = [x['commentAuthor']
                     for x in CommentsDataset.loc[thread, "postContent"]]  # list comprehension
-    # AuthorsNamesList.remove(-1)
+    AuthorsNamesList.update(listAuxiliar)
+    AuthorsNamesList2.append(listAuxiliar)
 
-    AuthorsNamesList.append(listAuxiliar)
 
 for index, item in CommentsDataset.iterrows():
     qtdViews = item['views'].strip(' views')

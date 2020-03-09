@@ -1,9 +1,11 @@
 import networkx as nx
 import pandas as pd
-import pandas as pd
 import pygraphviz as pgv
 # -----
 g = pgv.AGraph("HWgraph.dot")
+g.draw('asdf', format='png', prog='neato')
+
+
 
 degreeList = pd.DataFrame.from_dict(nx.degree_centrality(G2), orient='index', columns=[
                                     'value']).sort_values(by=['value'], ascending=False)
