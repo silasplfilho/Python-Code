@@ -1,3 +1,11 @@
+'''
+Tools to find the polarity or to perform the sentiment analysis:
+ - TextBlob
+ - NLTK-Vader
+'''
+
+from gensim import corpora, models
+from pprint import pprint
 import pandas as pd
 import jsonlines
 import numpy as np
@@ -52,7 +60,7 @@ a = [preprocess(word) for word in CommentsDataset.loc[0, 'postDocumentCorpus'] i
 processed_docs = CommentsDataset['postDocumentCorpus'].astype(str).apply(preprocess)
 # ------------------------------------------------------
 # dictionary = gensim.corpora.Dictionary(CommentsDataset.loc[:, 'postDocumentCorpus'])
-dictionary = gensim.corpora.Dictionary(processed_docs)
+dictionary = gensim.corpora.Dictionary(processed_docs)  # salvo como um objeto gensim Dictionary a lista das palavras preprocessadas
 
 count = 0
 for k, v in dictionary.iteritems():
@@ -62,38 +70,42 @@ for k, v in dictionary.iteritems():
         break
 
 dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
+dictionary.save('HWdictionary.dict')  # save dict to disk
 # bow_corpus = [dictionary.doc2bow(doc) for doc in CommentsDataset.loc[:, 'postDocumentCorpus']]
-bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
+bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]  # salvo o dicionario num BoW
+gensim.corpora.MmCorpus.serialize('bow_corpus.mm', bow_corpus)  # save corpus to disk
 
 # bow_doc_3074 = bow_corpus[0]
 # for i in range(len(bow_doc_3074)):
 #     print("Word {} (\"{}\") appears {} time.".format(bow_doc_3074[i][0],
 #                                                      dictionary[bow_doc_3074[i][0]],
 #                                                      bow_doc_3074[i][1]))
+# ------------------------------------------------------
+# LOADING THE CORPUS AND DICTIONARY
+loaded_dict = gensim.corpora.Dictionary.load('HWdictionary.dict')
 
-
+corpus = gensim.corpora.MmCorpus('bow_corpus.mm')
 # ------------------------------------------------------
 # TFIDF
-
-from gensim import corpora, models
 tfidf = models.TfidfModel(bow_corpus)
 corpus_tfidf = tfidf[bow_corpus]
 
-from pprint import pprint
 for doc in corpus_tfidf:
     pprint(doc)
     break
 
-
 # ------------------------------------------------------
 # LDA
-
-lda_model = gensim.models.LdaMulticore(
-    bow_corpus, num_topics=5, id2word=dictionary, passes=20, workers=2)
+lda_model = gensim.models.LdaMulticore(corpus=corpus,
+                                       num_topics=5,
+                                       id2word=loaded_dict,
+                                       passes=20,
+                                       workers=2,
+                                       random_state=0)
 
 for idx, topic in lda_model.print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
-
+lda_model.save('lda_model.model')
 # ------------------------------------------------------
 # Running LDA using TF-IDF
 
