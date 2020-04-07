@@ -17,6 +17,24 @@ from gensim.utils import simple_preprocess
 # Libraries for text preprocessing
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 stemmer = SnowballStemmer("english")
+stopwords = stopwords.words("english")
+# ------------------------------------------------------
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+VaderAnalyzer = SentimentIntensityAnalyzer()
+# ------------------------------------------------------
+
+
+def lemmatize_stemming(text):
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+
+def preprocess(text):
+    result = []
+    for token in simple_preprocess(text):
+        if token not in stopwords and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+    return result
+
 
 # ------------------------------------------------------
 with open('graph.json') as file:
@@ -51,56 +69,57 @@ HeallingWellCrawler/HealingWellComments_labCores.jsonl", mode='r') as f:
 CommentsDataset = pd.DataFrame(commentsList)
 CommentsDataset['postDocumentCorpus'] = ""
 CommentsDataset['titlePolarity'] = ""
-# -----
-stopwords = stopwords.words("english")
 
 # ------------------------------------------------------
 # DISCOVER THE POLARITY OF POSTS TITLES
 for itemIndex in range(0, len(CommentsDataset)):
-    titleTxtBlob = TextBlob(CommentsDataset.loc[itemIndex, 'title'])
-    CommentsDataset.loc[itemIndex, 'titlePolarity'] = titleTxtBlob.sentiment.polarity
+    titleTxt = CommentsDataset.loc[itemIndex, 'title']
+    CommentsDataset.loc[itemIndex, 'titlePolarity'] = VaderAnalyzer.polarity_scores(titleTxt)['compound']
 
 titlePolarityList = sorted(CommentsDataset['titlePolarity'])
-
-sns.distplot(titlePolarityList, hist=True, kde_kws={"shade": True, "color": "y", "alpha": .5}, bins=25)
-plt.xlabel("Post Title Polarity")
-plt.show()
 
 # ------------------------------------------------------
 # DISCOVER THE POLARITY OF POST TEXTS
 for itemIndex in range(0, len(CommentsDataset)):
     postContent = CommentsDataset.loc[itemIndex, 'postContent']  # conteudo de texto de um post - item i do dataset
-    postAuthorTxtBlob = TextBlob(postContent[0]['comment'])  # texto do autor do post - 1o elemento
+    # postAuthorTxtBlob = TextBlob(postContent[0]['comment'])  # texto do autor do post - 1o elemento
 
     postIndex = CommentsDataset.loc[itemIndex, 'link'].strip("/community/default.aspx?f=19&m=")  # identificador do post - link
-    authorPostPolarity = postAuthorTxtBlob.sentiment.polarity  # valor da polaridade do texto do autor
+    # authorPostPolarity = postAuthorTxtBlob.sentiment.polarity  # valor da polaridade do texto do autor
     if postIndex in l2:  # um post pode nao estar no grafo utilizado(q é o componente gigante), pois pode ser um post com apenas o autor
-        H.nodes[postIndex]['polarity'] = authorPostPolarity
+        # H.nodes[postIndex]['polarity'] = authorPostPolarity
+        H.nodes[postIndex]['polarity'] = VaderAnalyzer.polarity_scores(postContent[0]['comment'])['compound']  # texto do autor do post - 1o elemento
     else:
         continue
 
+# x = CommentsDataset.loc[itemIndex, 'postContent'][0]
+# VaderAnalyzer.polarity_scores(x['comment'])['compound']
+# postAuthorTxtBlob.sentiment.polarity
 
-elementsL2 = [round(H.nodes[lj2]['polarity'], 4) for lj2 in l2]  # testando o uso de indice para selecionar elementos do grafo
+# elementsL2 = [round(H.nodes[lj2]['polarity'], 4) for lj2 in l2]  # testando o uso de indice para selecionar elementos do grafo
+elementsL2 = [H.nodes[lj2]['polarity'] for lj2 in l2] 
 sorted(elementsL2)[0]
-sns.distplot(elementsL2, hist=True, kde_kws={"shade": True, "color": "y", "alpha": .5}, bins=40)
 
+# ------------------------------------------------------
+f, axes = plt.subplots(1, 2, sharex=True)
+sns.despine(left=True)
+
+plt.subplot(1, 2, 1)
+sns.distplot(titlePolarityList, hist=True, kde_kws={"shade": True, "color": "y", "alpha": .5})  #, bins=25)
+plt.xlabel("Post Title Polarity")
+
+# int(len(pd.unique(elementsL2))/10)
+plt.subplot(1, 2, 2)
+sns.distplot(elementsL2, hist=True, kde_kws={"shade": True, "color": "y", "alpha": .5}, bins=196)  # ax = axes[0, 0]
 plt.xlabel("Author Text Polarity")
+
+# plt.setp(axes, yticks=[], xticks=["Post Title Polarity", "Author Text Polarity"])
+plt.tight_layout()
+plt.savefig("Pictures/Post&TitlePolarity.png")
 plt.show()
 
-
 # ------------------------------------------------------
-def lemmatize_stemming(text):
-    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
-
-
-def preprocess(text):
-    result = []
-    for token in simple_preprocess(text):
-        if token not in stopwords and len(token) > 3:
-            result.append(lemmatize_stemming(token))
-    return result
-# ------------------------------------------------------
-
+# preprocess(CommentsDataset.loc[itemIndex, 'postContent'][0]['comment'])
 
 for indexController in range(0, len(CommentsDataset)):
     postDocument = []
@@ -113,7 +132,3 @@ for indexController in range(0, len(CommentsDataset)):
 a = [preprocess(word) for word in CommentsDataset.loc[0, 'postDocumentCorpus'] if preprocess(word) != []]
 # ------------------------------------------------------
 processed_docs = CommentsDataset['postDocumentCorpus'].astype(str).apply(preprocess)
-
-CommentsDataset.loc[450, 'postContent'][0]['comment']
-txtBlob = TextBlob(CommentsDataset.loc[450, 'postContent'][0]['comment'])
-txtBlob.sentiment
